@@ -69,11 +69,19 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         block = self.get_block(block_id)
         return self.get_group(block['parent_id'])
 
+    def get_all_questions_for_block(self, block_id):
+        """ Get all questions that could possibly be displayed for a block """
+        block = self.get_block(block_id)
+        return QuestionnaireSchema.get_questions_for_block(block)
+
     def get_answers_by_id_for_block(self, block_id):
         block = self.get_block(block_id)
         if block:
             answers_by_id = {}
-            for question in block.get('questions', []):
+
+            questions = self.get_all_questions_for_block(block_id)
+
+            for question in questions:
                 for answer in question.get('answers', []):
                     answers_by_id.update({answer['id']: answer})
                     for option in answer.get('options', []):
@@ -96,9 +104,17 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         ]
 
     @staticmethod
-    def get_questions_for_block(block_json):
-        for question_json in block_json.get('questions', []):
-            yield question_json
+    def get_questions_for_block(block):
+        all_questions = []
+        if block:
+            if block.get('question'):
+                all_questions.append(block['question'])
+            elif block.get('question_variants'):
+                for variant in block['question_variants']:
+                    all_questions.append(variant['question'])
+
+            return all_questions
+        return []
 
     @staticmethod
     def is_summary_section(section):
@@ -136,9 +152,19 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         self._sections_by_id = self._get_sections_by_id()
         self._groups_by_id = get_nested_schema_objects(self._sections_by_id, 'groups')
         self._blocks_by_id = get_nested_schema_objects(self._groups_by_id, 'blocks')
-        self._questions_by_id = get_nested_schema_objects(self._blocks_by_id, 'questions')
+        self._questions_by_id = self._get_questions_by_id()
         self._answers_by_id = get_nested_schema_objects(self._questions_by_id, 'answers')
         self.error_messages = self._get_error_messages()
+
+    def _get_questions_by_id(self):
+        questions_by_id = OrderedDict()
+
+        for block in self._blocks_by_id.values():
+            for question in self.get_questions_for_block(block):
+                questions_by_id[question['id']] = question
+                questions_by_id[question['id']]['parent_id'] = block['id']
+
+        return questions_by_id
 
     def _get_sections_by_id(self):
         return OrderedDict(

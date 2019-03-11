@@ -1,0 +1,313 @@
+{
+    "mime_type": "application/json/ons/eq",
+    "schema_version": "0.0.1",
+    "data_version": "0.0.2",
+    "survey_id": "0",
+    "title": "Test Question Variants",
+    "theme": "default",
+    "description": "A questionnaire to test question variants",
+    "metadata": [
+        {
+            "name": "user_id",
+            "validator": "string"
+        },
+        {
+            "name": "period_id",
+            "validator": "string"
+        },
+        {
+            "name": "ru_name",
+            "validator": "string"
+        }
+    ],
+    "sections": [
+        {
+            "id": "basic-question-variant-section",
+            "groups": [
+                {
+                    "id": "basic-question-variant-group",
+                    "title": "Variants",
+                    "blocks": [
+                        {
+                            "type": "Question",
+                            "id": "age-block",
+                            "title": "questions only",
+                            "question": {
+                                "id": "age-question",
+                                "type": "General",
+                                "title": "What is your age?",
+                                "answers": [
+                                    {
+                                        "id": "age-answer",
+                                        "label": "Your age?",
+                                        "mandatory": false,
+                                        "type": "Number"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "type": "ConfirmationQuestion",
+                            "id": "age-confirmation-block",
+                            "title": "Confirm your age",
+                            "question_variants": [
+                                {
+                                    "question": {
+                                        "id": "age-over-confirmation-question",
+                                        "type": "General",
+                                        "title": "You are over 16?",
+                                        "answers": [
+                                            {
+                                                "id": "age-confirm-answer",
+                                                "type": "Radio",
+                                                "mandatory": true,
+                                                "options": [
+                                                    {
+                                                        "label": "Yes",
+                                                        "value": "Yes"
+                                                    },
+                                                    {
+                                                        "label": "No",
+                                                        "value": "No"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "when": [
+                                        {
+                                            "id": "age-answer",
+                                            "condition": "greater than",
+                                            "value": 16
+                                        }
+                                    ]
+                                },
+                                {
+                                    "question": {
+                                        "id": "age-under-confirmation-question",
+                                        "type": "General",
+                                        "title": "You are under 16?",
+                                        "answers": [
+                                            {
+                                                "id": "age-confirm-answer",
+                                                "type": "Radio",
+                                                "mandatory": true,
+                                                "options": [
+                                                    {
+                                                        "label": "Yes",
+                                                        "value": "Yes"
+                                                    },
+                                                    {
+                                                        "label": "No",
+                                                        "value": "No"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "when": [
+                                        {
+                                            "id": "age-answer",
+                                            "condition": "less than or equal to",
+                                            "value": 16
+                                        }
+                                    ]
+                                }
+                            ],
+                            "routing_rules": [
+                                {
+                                    "goto": {
+                                        "block": "age-block",
+                                        "when": [
+                                            {
+                                                "id": "age-confirm-answer",
+                                                "condition": "equals",
+                                                "value": "no"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "goto": {
+                                        "block": "basic-variants-summary"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "basic-variants-summary",
+                            "type": "SectionSummary"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "currency-section",
+            "groups": [
+                {
+                    "id": "currency-group",
+                    "title": "Calculated Summary With Variants",
+                    "blocks": [
+                        {
+                            "type": "Question",
+                            "id": "currency-block",
+                            "title": "Choose a currency",
+                            "question": {
+                                "id": "currency-question",
+                                "type": "General",
+                                "title": "What currency would you like",
+                                "answers": [
+                                    {
+                                        "id": "currency-answer",
+                                        "type": "Radio",
+                                        "mandatory": true,
+                                        "options": [
+                                            {
+                                                "label": "US Dollars",
+                                                "value": "USD"
+                                            },
+                                            {
+                                                "label": "Sterling",
+                                                "value": "GBP"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Question",
+                            "title": "First Number",
+                            "id": "first-number-block",
+                            "question_variants": [
+                                {
+                                    "question": {
+                                        "id": "first-number-question-gbp",
+                                        "title": "First Number Question Title",
+                                        "type": "General",
+                                        "answers": [
+                                            {
+                                                "id": "first-number-answer",
+                                                "label": "First answer in GBP",
+                                                "mandatory": true,
+                                                "type": "Currency",
+                                                "currency": "GBP",
+                                                "decimal_places": 2
+                                            }
+                                        ]
+                                    },
+                                    "when": [
+                                        {
+                                            "id": "currency-answer",
+                                            "condition": "equals",
+                                            "value": "GBP"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "question": {
+                                        "id": "first-number-question-usd",
+                                        "title": "First Number Question Title",
+                                        "type": "General",
+                                        "answers": [
+                                            {
+                                                "id": "first-number-answer",
+                                                "label": "First answer in USD",
+                                                "mandatory": true,
+                                                "type": "Currency",
+                                                "currency": "USD",
+                                                "decimal_places": 2
+                                            }
+                                        ]
+                                    },
+                                    "when": [
+                                        {
+                                            "id": "currency-answer",
+                                            "condition": "equals",
+                                            "value": "USD"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Question",
+                            "title": "Second Number Block Title",
+                            "id": "second-number-block",
+                            "question_variants": [
+                                {
+                                    "question": {
+                                        "id": "second-number-question-gbp",
+                                        "title": "Second Number Question Title",
+                                        "type": "General",
+                                        "answers": [
+                                            {
+                                                "id": "second-number-answer",
+                                                "label": "Second answer in GBP",
+                                                "mandatory": true,
+                                                "type": "Currency",
+                                                "currency": "GBP",
+                                                "decimal_places": 2
+                                            }
+                                        ]
+                                    },
+                                    "when": [
+                                        {
+                                            "id": "currency-answer",
+                                            "condition": "equals",
+                                            "value": "GBP"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "question": {
+                                        "id": "second-number-question-usd",
+                                        "title": "Second Number Question Title",
+                                        "type": "General",
+                                        "answers": [
+                                            {
+                                                "id": "second-number-answer",
+                                                "label": "Second answer in USD",
+                                                "mandatory": true,
+                                                "type": "Currency",
+                                                "currency": "USD",
+                                                "decimal_places": 2
+                                            }
+                                        ]
+                                    },
+                                    "when": [
+                                        {
+                                            "id": "currency-answer",
+                                            "condition": "equals",
+                                            "value": "USD"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "SectionSummary",
+                            "id": "currency-section-summary"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "summary-section",
+            "groups": [
+                {
+                    "id": "summary-group",
+                    "title": "Final summary",
+                    "blocks": [
+                        {
+                            "id": "all-summary",
+                            "type": "Summary"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

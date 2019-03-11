@@ -23,7 +23,7 @@
                 "type": "Question",
                 "id": "date-question",
                 "description": "",
-                "questions": [{
+                "question": {
                     "answers": [{
                         "id": "single-date-answer",
                         "label": "Today",
@@ -34,7 +34,7 @@
                     "id": "date-questions",
                     "title": "Enter a date less than {{ get_current_date() }}",
                     "type": "General"
-                }],
+                },
                 "title": "",
                 "routing_rules": [{
                     "goto": {

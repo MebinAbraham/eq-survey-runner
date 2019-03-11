@@ -38,7 +38,7 @@
                 "id": "breakfast",
                 "description": "",
                 "title": "What is your favourite breakfast food",
-                "questions": [{
+                "question": {
                     "answers": [{
                         "id": "breakfast-answer",
                         "label": "What is your favourite breakfast food",
@@ -50,7 +50,7 @@
                     "id": "breakfast-question",
                     "title": "What is your favourite breakfast food",
                     "type": "General"
-                }],
+                },
                 "routing_rules": []
             }],
             "id": "final-confirmation",

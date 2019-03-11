@@ -23,7 +23,7 @@
                 "type": "Question",
                 "id": "number-question",
                 "description": "",
-                "questions": [{
+                "question": {
                     "answers": [{
                         "id": "answer",
                         "mandatory": true,
@@ -33,7 +33,7 @@
                     "id": "question",
                     "title": "Enter the number greater than 123",
                     "type": "General"
-                }],
+                },
                 "title": "Number Routing Greater Than",
                 "routing_rules": [{
                     "goto": {

@@ -3,8 +3,9 @@
     "schema_version": "0.0.1",
     "data_version": "0.0.2",
     "survey_id": "0",
-    "title": "Dropdown Mandatory",
+    "title": "Question Title Test",
     "theme": "default",
+    "description": "A questionnaire to test question titles",
     "metadata": [{
         "name": "user_id",
         "validator": "string"
@@ -18,30 +19,26 @@
     "sections": [{
         "id": "default-section",
         "groups": [{
-            "id": "dropdown",
-            "title": "Dropdown Mandatory",
+            "id": "group",
+            "title": "",
             "blocks": [{
                 "type": "Question",
-                "id": "dropdown-mandatory",
+                "id": "single-title-block",
+                "title": "Single question title",
                 "question": {
+                    "id": "single-title-question",
+                    "title": "How are you feeling??",
                     "type": "General",
-                    "id": "dropdown-mandatory-question",
-                    "title": "Which football team do your support?",
                     "answers": [{
-                        "type": "Dropdown",
-                        "id": "dropdown-mandatory-answer",
+                        "type": "Radio",
+                        "id": "feeling-answer",
                         "mandatory": true,
-                        "label": "Football team",
-                        "description": "Your favourite team from the Premier League.",
                         "options": [{
-                            "label": "Liverpool",
-                            "value": "Liverpool"
+                            "label": "Good",
+                            "value": "good"
                         }, {
-                            "label": "Chelsea",
-                            "value": "Chelsea"
-                        }, {
-                            "label": "Rugby is better!",
-                            "value": "Rugby is better!"
+                            "label": "Bad",
+                            "value": "bad"
                         }]
                     }]
                 }

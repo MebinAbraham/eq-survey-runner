@@ -19,7 +19,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-single-block')
 
         with self.app_request_context('/'):
             form = get_date_form(AnswerStore(), {}, answers['single-date-answer'], error_messages=error_messages)
@@ -32,7 +32,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-month-year-block')
 
         with self.app_request_context('/'):
             form = get_month_year_form(answers['month-year-answer'], {}, {}, error_messages=error_messages)
@@ -45,7 +45,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-year-date-block')
 
         form = get_year_form(answers['year-date-answer'], {}, {}, error_messages=error_messages, label=None, guidance=None)
 
@@ -57,7 +57,8 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-single-block')
+        print(answers)
 
         with self.app_request_context('/'):
             form = get_date_form(AnswerStore(), {}, answers['single-date-answer'], error_messages=error_messages)
@@ -68,7 +69,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-month-year-block')
 
         with self.app_request_context('/'):
             form = get_month_year_form(answers['month-year-answer'], {}, {}, error_messages=error_messages)
@@ -79,7 +80,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-year-date-block')
 
         form = get_year_form(answers['year-date-answer'], {}, {}, error_messages=error_messages, label=None, guidance=None)
 
@@ -89,7 +90,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-single-block')
 
         data = {'field': '2000-01-01'}
 
@@ -105,7 +106,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-month-year-block')
 
         data = {'field': '2000-01'}
 
@@ -121,7 +122,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        answers = schema.get_answers_by_id_for_block('date-block')
+        answers = schema.get_answers_by_id_for_block('date-year-date-block')
 
         data = {'field': '2000'}
 

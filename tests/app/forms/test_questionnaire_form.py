@@ -931,9 +931,9 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
             self.assertEqual(form.question_errors['breakdown-question'],
                              schema.error_messages['TOTAL_SUM_NOT_EQUALS'] % dict(total='10'))
 
-    def test_generate_form_with_titles_and_no_answer_label(self):
+    def test_generate_form_with_title_and_no_answer_label(self):
         """
-        Checks that the form is still generated when there is no answer label and a question titles object
+        Checks that the form is still generated when there is no answer label but there is a question title
         """
         store = AnswerStore()
 
@@ -945,27 +945,24 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
         store.add_or_update(conditional_answer)
 
         with self.app_request_context():
-            schema = load_schema_from_params('test', 'titles')
+            schema = load_schema_from_params('test', 'title')
 
-            block_json = schema.get_block('multiple-question-versions-block')
+            block_json = schema.get_block('single-title-block')
 
             data = {
-                'gender-answer': 'male',
-                'age-answer': '25',
-                'sure-answer': 'yes'
+                'feeling-answer': 'good'
             }
 
             expected_form_data = {
                 'csrf_token': '',
-                'gender-answer': 'male',
-                'age-answer': int('25'),
-                'sure-answer': 'yes'
+                'feeling-answer': 'good'
             }
+
             with patch('app.questionnaire.path_finder.evaluate_goto', return_value=False):
                 form = generate_form(schema, block_json, store, metadata={}, formdata=data)
 
             form.validate()
-            self.assertEqual(form.data, expected_form_data)
+            assert form.data == expected_form_data
 
     def test_form_errors_are_correctly_mapped(self):
         with self.app_request_context():
@@ -1053,35 +1050,12 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
         with self.app_request_context():
             schema = load_schema_from_params('test', 'mutually_exclusive')
 
-            block_json = schema.get_block('mutually-exclusive-checkbox')
+            block = schema.get_block('mutually-exclusive-checkbox')
 
-            question_json = {
-                'id': 'mutually-exclusive-checkbox-question',
-                'type': 'MutuallyExclusive',
-                'title': 'What is your nationality?',
-                'mandatory': True,
-                'answers': [{
-                    'id': 'checkbox-answer',
-                    'label': 'Select an answer',
-                    'type': 'Checkbox',
-                    'mandatory': False,
-                    'options': [{'label': 'British', 'value': 'British'},
-                                {'label': 'Irish', 'value': 'Irish'}, {
-                                    'label': 'Other',
-                                    'description': 'Choose any other topping',
-                                    'value': 'Other',
-                                }],
-                }, {
-                    'id': 'checkbox-exclusive-answer',
-                    'mandatory': False,
-                    'type': 'Checkbox',
-                    'options': [{'label': 'I prefer not to say',
-                                 'value': 'I prefer not to say'}],
-                }],
-            }
+            question = block['question']
 
-            form = generate_form(schema, block_json, AnswerStore(), metadata=None, formdata={})
-            form.validate_mutually_exclusive_question(question_json)
+            form = generate_form(schema, block, AnswerStore(), metadata=None, formdata={})
+            form.validate_mutually_exclusive_question(question)
 
             self.assertEqual(form.question_errors['mutually-exclusive-checkbox-question'], 'Enter an answer to continue.')
 

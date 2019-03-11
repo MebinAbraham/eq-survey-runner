@@ -15,9 +15,8 @@
     <div class="block__description u-fs-r" data-qa="block-description">{{block['description']}}</div>
   {% endif %}
 
-  {% for question in block['questions'] %}
-    {% if not question.skipped %}
+  {% if 'question' in block %}
+      {% set question = block['question'] %}
       {% include theme('partials/question.html') %}
-    {% endif %}
-  {% endfor %}
+  {% endif %}
 </div>

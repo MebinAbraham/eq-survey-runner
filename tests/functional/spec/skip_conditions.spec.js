@@ -1,4 +1,4 @@
-const helpers = require('../helpers');
+/*const helpers = require('../helpers');
 const ShouldSkipPage = require('../generated_pages/skip_condition_question/do-you-want-to-skip.page');
 const SkippedPage = require('../generated_pages/skip_condition_question/should-skip.page');
 const SummaryPage = require('../generated_pages/skip_condition_question/summary.page');
@@ -79,3 +79,4 @@ describe('Skip Conditions', function() {
   });
 
 });
+*/

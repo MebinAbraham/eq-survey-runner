@@ -29,7 +29,7 @@
                     "type": "Question",
                     "id": "name-question",
                     "title": "What is your name?",
-                    "questions": [{
+                    "question": {
                         "description": "",
                         "id": "primary-name-question",
                         "title": "Please enter your name",
@@ -49,7 +49,7 @@
                                 "type": "TextField"
                             }
                         ]
-                    }]
+                    }
                 }]
             }]
         },
@@ -63,7 +63,7 @@
                     "type": "Question",
                     "id": "dob-question-block",
                     "title": "What is your date of birth?",
-                    "questions": [{
+                    "question": {
                         "description": "",
                         "id": "dob-question",
                         "title": "Please enter your date of birth",
@@ -75,7 +75,7 @@
                             "mandatory": true,
                             "type": "Date"
                         }]
-                    }]
+                    }
                 }]
             }]
         },
@@ -86,7 +86,7 @@
                 "blocks": [{
                     "type": "ConfirmationQuestion",
                     "id": "confirm-dob-proxy",
-                    "questions": [{
+                    "question": {
                         "id": "confirm-date-of-birth-proxy",
                         "title": {
                             "text": "{person_name} is {age_in_years} years old. Is this correct?",
@@ -166,6 +166,20 @@
                             ],
                             "type": "Radio"
                         }]
+                    },
+                    "routing_rules": [{
+                        "goto": {
+                            "group": "dob-input-group",
+                            "when": [{
+                                "id": "confirm-date-of-birth-answer-proxy",
+                                "condition": "equals",
+                                "value": "No"
+                            }]
+                        }
+                    }, {
+                        "goto": {
+                            "group": "summary-group"
+                        }
                     }]
                 }],
                 "id": "group",

@@ -52,12 +52,21 @@ def post_form_for_block(schema, block_json, answer_store, metadata, request_form
     return generate_form(schema, block_json, answer_store, metadata, formdata=data)
 
 
-def disable_mandatory_answers(block_json):
-    for question_json in block_json.get('questions', []):
-        for answer_json in question_json.get('answers', []):
-            if 'mandatory' in answer_json and answer_json['mandatory'] is True:
-                answer_json['mandatory'] = False
-    return block_json
+def disable_mandatory_answers(block):
+
+    def set_mandatory_to_false(question):
+        # Here Be Dragons: This loop modifies the input in place.
+        for answer in question.get('answers', []):
+            if answer.get('mandatory', True) is True:
+                answer['mandatory'] = False
+
+    if block.get('question'):
+        set_mandatory_to_false(block.get('question'))
+
+    for question_variant in block.get('question_variants', []):
+        set_mandatory_to_false(question_variant['question'])
+
+    return block
 
 
 def clear_detail_answer_field(data, questions_for_block):

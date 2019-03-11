@@ -33,7 +33,7 @@
                 "type": "Question",
                 "id": "breakfast-block",
                 "description": "",
-                "questions": [{
+                "question": {
                     "answers": [{
                         "id": "favourite-breakfast",
                         "label": "What is your favourite breakfast food",
@@ -45,7 +45,7 @@
                     "id": "favourite-breakfast-question",
                     "title": "What is your favourite breakfast food",
                     "type": "General"
-                }],
+                },
                 "title": "What is your favourite breakfast food",
                 "routing_rules": []
             }, {
@@ -57,7 +57,7 @@
                 "type": "Question",
                 "id": "lunch-block",
                 "description": "",
-                "questions": [{
+                "question": {
                     "answers": [{
                         "id": "favourite-lunch",
                         "label": "What is your favourite lunchtime food",
@@ -69,7 +69,7 @@
                     "id": "favourite-lunch-question",
                     "title": "",
                     "type": "General"
-                }],
+                },
                 "title": "What is your favourite lunchtime food",
                 "routing_rules": []
             }, {

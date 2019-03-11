@@ -23,7 +23,7 @@
                     "type": "Question",
                     "id": "topping-checkbox",
                     "description": "",
-                    "questions": [{
+                    "question": {
                         "answers": [{
                             "id": "topping-checkbox-answer",
                             "label": "",
@@ -66,7 +66,7 @@
                         "id": "topping-checkbox-question",
                         "title": "What extra toppings would you like?",
                         "type": "General"
-                    }],
+                    },
                     "title": "Topping question",
                     "routing_rules": []
                 },
@@ -97,7 +97,7 @@
                 {
                     "type": "Question",
                     "id": "optional-mutually-exclusive",
-                    "questions": [{
+                    "question": {
                         "answers": [{
                             "id": "optional-mutually-exclusive-answer",
                             "mandatory": false,
@@ -119,7 +119,7 @@
                         "id": "optional-mutually-exclusive-question",
                         "title": "What is your favourite cheese?",
                         "type": "General"
-                    }],
+                    },
                     "title": "Optional question"
                 },
                 {

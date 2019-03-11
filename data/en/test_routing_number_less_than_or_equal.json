@@ -23,7 +23,7 @@
                 "type": "Question",
                 "id": "number-question",
                 "description": "",
-                "questions": [{
+                "question": {
                     "answers": [{
                         "id": "answer",
                         "mandatory": true,
@@ -33,7 +33,7 @@
                     "id": "question",
                     "title": "Enter the number less than or equal to 123",
                     "type": "General"
-                }],
+                },
                 "title": "Number Routing Less Than or Equal",
                 "routing_rules": [{
                     "goto": {

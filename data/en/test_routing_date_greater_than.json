@@ -26,7 +26,7 @@
                 "type": "Question",
                 "id": "date-question",
                 "description": "",
-                "questions": [{
+                "question": {
                     "answers": [{
                         "id": "single-date-answer",
                         "label": "",
@@ -37,7 +37,7 @@
                     "id": "date-questions",
                     "title": "Enter a date greater than Return date: {{ metadata['return_by']|format_date }}",
                     "type": "General"
-                }],
+                },
                 "title": "",
                 "routing_rules": [{
                     "goto": {

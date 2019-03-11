@@ -140,11 +140,9 @@ class TestQuestionnaireSchema(AppContextTestCase):
                             'id': 'block1',
                             'type': 'Question',
                             'title': 'Block 1',
-                            'questions': [
-                                {
-                                    'id': 'question1'
-                                }
-                            ]
+                            'question': {
+                                'id': 'question1'
+                            }
                         }
                     ]
                 }]
@@ -166,12 +164,10 @@ class TestQuestionnaireSchema(AppContextTestCase):
                             'id': 'block1',
                             'type': 'Question',
                             'title': 'Block 1',
-                            'questions': [
-                                {
-                                    'id': 'question1',
-                                    'title': 'Question 1'
-                                }
-                            ]
+                            'question': {
+                                'id': 'question1',
+                                'title': 'Question 1'
+                            }
                         }
                     ]
                 }]
@@ -195,18 +191,16 @@ class TestQuestionnaireSchema(AppContextTestCase):
                             'id': 'block1',
                             'type': 'Question',
                             'title': 'Block 1',
-                            'questions': [
-                                {
-                                    'id': 'question1',
-                                    'title': 'Question 1',
-                                    'answers': [
-                                        {
-                                            'id': 'answer1',
-                                            'label': 'Answer 1'
-                                        }
-                                    ]
-                                }
-                            ]
+                            'question': {
+                                'id': 'question1',
+                                'title': 'Question 1',
+                                'answers': [
+                                    {
+                                        'id': 'answer1',
+                                        'label': 'Answer 1'
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }]
@@ -228,18 +222,16 @@ class TestQuestionnaireSchema(AppContextTestCase):
                             'id': 'block1',
                             'type': 'Question',
                             'title': 'Block 1',
-                            'questions': [
-                                {
-                                    'id': 'question1',
-                                    'title': 'Question 1',
-                                    'answers': [
-                                        {
-                                            'id': 'answer1',
-                                            'label': 'Answer 1'
-                                        }
-                                    ]
-                                }
-                            ]
+                            'question': {
+                                'id': 'question1',
+                                'title': 'Question 1',
+                                'answers': [
+                                    {
+                                        'id': 'answer1',
+                                        'label': 'Answer 1'
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }]

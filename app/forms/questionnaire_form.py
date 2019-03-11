@@ -10,7 +10,6 @@ from wtforms import validators
 
 from app.forms.date_form import get_dates_for_single_date_period_validation
 from app.forms.fields import get_field
-from app.templating.utils import get_question_title
 from app.validation.validators import DateRangeCheck, SumCheck, MutuallyExclusiveCheck
 
 logger = logging.getLogger(__name__)
@@ -232,17 +231,17 @@ class QuestionnaireForm(FlaskForm):
     def map_errors(self):
         ordered_errors = []
 
-        question_json_list = self.schema.get_questions_for_block(self.block_json)
+        question_list = self.schema.get_questions_for_block(self.block_json)
 
-        for question_json in question_json_list:
-            if question_json['id'] in self.question_errors:
-                ordered_errors += [(question_json['id'], self.question_errors[question_json['id']])]
+        for question in question_list:
+            if question['id'] in self.question_errors:
+                ordered_errors += [(question['id'], self.question_errors[question['id']])]
 
-            for answer_json in question_json['answers']:
-                if answer_json['id'] in self.errors:
-                    ordered_errors += map_subfield_errors(self.errors, answer_json['id'])
-                if 'options' in answer_json:
-                    ordered_errors += map_detail_answer_errors(self.errors, answer_json)
+            for answer in question['answers']:
+                if answer['id'] in self.errors:
+                    ordered_errors += map_subfield_errors(self.errors, answer['id'])
+                if 'options' in answer:
+                    ordered_errors += map_detail_answer_errors(self.errors, answer)
 
         return ordered_errors
 
@@ -255,7 +254,7 @@ class QuestionnaireForm(FlaskForm):
 
 
 # pylint: disable=too-many-locals
-def get_answer_fields(question, data, error_messages, schema, answer_store, metadata):
+def get_answer_fields(question, data, error_messages, answer_store, metadata):
     answer_fields = {}
     for answer in question.get('answers', []):
 
@@ -276,9 +275,9 @@ def get_answer_fields(question, data, error_messages, schema, answer_store, meta
                                                                detail_answer_error_messages, answer_store, metadata,
                                                                disable_validation=disable_validation)
 
-        name = answer.get('label') or get_question_title(question, answer_store, schema, metadata)
-        answer_fields[answer['id']] = get_field(answer, name, error_messages, answer_store, metadata)
+        name = answer.get('label') or question.get('title')
 
+        answer_fields[answer['id']] = get_field(answer, name, error_messages, answer_store, metadata)
     return answer_fields
 
 
@@ -317,7 +316,6 @@ def generate_form(schema, block_json, answer_store, metadata, data=None, formdat
             question,
             formdata if formdata is not None else data,
             schema.error_messages,
-            schema,
             answer_store,
             metadata,
         ))

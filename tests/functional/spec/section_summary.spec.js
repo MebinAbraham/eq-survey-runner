@@ -5,7 +5,7 @@ const AddressDurationPage = require('../generated_pages/section_summary/address-
 const PropertyDetailsSummaryPage = require('../generated_pages/section_summary/property-details-summary.page.js');
 const FinalSummaryPage = require('../generated_pages/section_summary/summary.page.js');
 
-describe('Section Summary', function() {
+describe('@watch Section Summary', function() {
 
   describe('Given I start a Test Section Summary survey and complete to Section Summary', function() {
 
