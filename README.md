@@ -218,8 +218,12 @@ To run the census functional tests within the cypress UI:
 
 ### Deployment with [Helm](https://helm.sh/)
 
-To deploy this application with helm, you must have a kubernetes cluster already running.
+To deploy this application with helm, you must have a kubernetes cluster already running and be logged into the cluster.
 
+Log in to the cluster using:
+```
+gcloud container clusters get-credentials survey-runner --region <region> --project <gcp_project_id>
+```
 You need to have Helm installed locally
 
 1. Install Helm with `brew install kubernetes-helm` and then run `helm init --client-only`
@@ -229,9 +233,13 @@ You need to have Helm installed locally
 To deploy to a cluster you can run the following command
 
 ```
-helm tiller run helm upgrade --install survey-runner ./helm/runner --set projectId=PROJECT_ID --set submissionBucket=BUCKET_NAME 
+./scripts/deploy/runner.sh <PROJECT_ID> <SUBMISSION_BUCKET_NAME> <IMAGE_TAG>
 ```
-
+##### Example
+ ```
+ ./scripts/deploy/runner.sh census-eq-dev-1234567 census-eq-dev-1234567-survey-runner-submission v3.0.0
+ ```
+ 
 ### Internationalisation
 
 We use flask-babel to do internationalisation.  To extract messages from source, in the project root run the following command.
