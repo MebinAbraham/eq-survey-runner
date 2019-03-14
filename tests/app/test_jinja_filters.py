@@ -16,8 +16,8 @@ from app.jinja_filters import (
     format_unit_input_label, format_household_name_possessive, format_household_summary,
     concatenated_list, calculate_years_difference, get_current_date, as_london_tz,
     max_value, min_value, get_question_title, get_answer_label,
-    format_duration, calculate_offset_from_weekday_in_last_whole_week, format_date_custom,
-    format_date_range_no_repeated_month_year, format_repeating_summary, format_address_list, first_non_empty_item)
+    format_duration, format_date_custom,
+    format_date_range_no_repeated_month_year, format_repeating_summary, first_non_empty_item)
 from tests.app.app_context_test_case import AppContextTestCase
 
 
@@ -869,37 +869,6 @@ class TestJinjaFilters(AppContextTestCase):  # pylint: disable=too-many-public-m
         # Then
         self.assertEqual(answer_label, 'default_question_title')
 
-    def test_offset_date_from_day(self):
-        test_cases = [
-            # (Input Date, offset, day of week, expected output)
-            ('2018-08-10', {}, 'SU', '2018-08-05'),  # Friday outputs previous Sunday
-            ('2018-08-05', {}, 'SU', '2018-07-29'),  # Sunday outputs previous Sunday (Must be a full Sunday)
-            ('2018-08-06', {}, 'SU', '2018-08-05'),  # Monday outputs previous Sunday
-            ('2018-08-06', {'days': -1}, 'SU', '2018-08-04'),  # Previous sunday with -1 day offset
-            ('2018-08-05', {'weeks': 1}, 'SU', '2018-08-05'),  # Previous sunday with +1 week offset, back to input
-            ('2018-08-10', {}, 'FR', '2018-08-03'),  # Friday outputs previous Friday
-            ('2018-08-10T13:32:20.365665', {}, 'FR', '2018-08-03'),  # Ensure we can handle datetime input
-            ('2018-08-10', {'weeks': 4}, 'FR', '2018-08-31'),  # Friday outputs previous Friday + 4 weeks
-            ('2018-08-10', {'bad_period': 4}, 'FR', '2018-08-03'),  # Friday outputs previous Friday + nothing
-            ('2018-08-10', {'years': 1}, 'FR', '2019-08-03'),  # Friday outputs previous Friday + 1 year
-            ('2018-08-10', {'years': 1, 'weeks': 1, 'days': 1}, 'FR', '2019-08-11'),  # Friday outputs previous Friday + 1 year + 1 week + 1 day
-        ]
-        for case in test_cases:
-            self.assertEqual(calculate_offset_from_weekday_in_last_whole_week(*case[0:3]), case[3])
-
-    def test_bad_day_of_week_offset_date_from_day(self):
-        with self.assertRaises(Exception):
-            calculate_offset_from_weekday_in_last_whole_week('2018-08-10', {}, 'BA')
-
-    def test_offset_date_defaults_to_now_if_date_not_passed(self):
-        with patch('app.jinja_filters.datetime') as mock_datetime:
-            # pylint: disable=unnecessary-lambda
-            mock_datetime.utcnow.return_value = datetime(2018, 8, 10)
-            mock_datetime.strftime.side_effect = lambda *args, **kw: datetime.strftime(*args, **kw)
-
-            result = calculate_offset_from_weekday_in_last_whole_week(None, {}, 'SU')
-            self.assertEqual(result, '2018-08-05')
-
     def test_format_date_custom(self):
         test_cases = [
             # Input Date, date format, show year
@@ -963,51 +932,6 @@ class TestJinjaFilters(AppContextTestCase):  # pylint: disable=too-many-public-m
         self.autoescape_context = Mock(autoescape=True)
         output = format_repeating_summary(self.autoescape_context, [['', '51 Testing Gardens', '', 'Bristol', 'BS9 1AW']], delimiter=', ')
         self.assertEqual(output, '<ul><li>51 Testing Gardens, Bristol, BS9 1AW</li></ul>')
-
-    def test_format_address_list_undefined_values(self):
-        user_entered_address = [Undefined(), Undefined(), Undefined(), Undefined(), Undefined()]
-        metadata_address = ['123', 'Testy', 'Place', 'Newport', 'NP5 7AR']
-        self.assertEqual('123<br />Testy<br />Place<br />Newport<br />NP5 7AR',
-                         format_address_list(user_entered_address, metadata_address))
-
-    def test_format_address_list_missing_values(self):
-        user_entered_address = ['44', 'Testing', '', 'Swansea', '']
-        metadata_address = ['123', 'Testy', 'Place', 'Newport', 'NP5 7AR']
-        self.assertEqual('44<br />Testing<br />Swansea',
-                         format_address_list(user_entered_address, metadata_address))
-
-    def test_format_address_list_None_value(self):
-        user_entered_address = [None, None, None, None, None]
-        metadata_address = [None, None, None, None, None]
-        with self.assertRaises(Exception):
-            format_address_list(user_entered_address, metadata_address)
-
-    def test_format_address_list_no_values_in_answer(self):
-        user_entered_address = ['', '', '', '', '']
-        metadata_address = ['123', 'Testy', 'Place', 'Newport', 'NP5 7AR']
-        self.assertEqual('123<br />Testy<br />Place<br />Newport<br />NP5 7AR',
-                         format_address_list(user_entered_address, metadata_address))
-
-    def test_format_address_list_no_metadata(self):
-        user_entered_address = ['44', 'Testing', 'Gardens', 'Swansea', 'SA1 1AA']
-        metadata_address = []
-        self.assertEqual('44<br />Testing<br />Gardens<br />Swansea<br />SA1 1AA',
-                         format_address_list(user_entered_address, metadata_address))
-
-    def test_format_address_list(self):
-        user_entered_address = ['44', 'Testing', 'Gardens', 'Swansea', 'SA1 1AA']
-        metadata_address = ['123', 'Testy', 'Place', 'Newport', 'NP5 7AR']
-        self.assertEqual('44<br />Testing<br />Gardens<br />Swansea<br />SA1 1AA',
-                         format_address_list(user_entered_address, metadata_address))
-
-    def test_format_address_list_concatenated_list_no_values(self):
-        answer_address = ['', '', '']
-        metadata_address = ['', '', '']
-
-        with self.assertRaises(Exception) as error:
-            format_address_list(answer_address, metadata_address)
-
-        self.assertEqual('No valid address passed to format_address_list filter', error.exception.args[0])
 
     def test_first_non_empty_item_filter_returns_first_non_empty_item(self):
         # Given

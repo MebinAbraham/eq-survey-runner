@@ -42,38 +42,6 @@ Input:              Output:
 ("11000", "USD")    "<span class='date'>US$11,000.00</span>"
 ```
 
-## format_address_list
-This accepts two lists of address values.
-If all the items in the first address list are empty or 'undefined' then we use the second address.
-
-##### Parameters: 
-- first_address:    List of address values
-- second_address:   List of address values
-
-##### Context:
-Used to display a full address for use in a description. 
-Used where there is potential that a respondent may provide a new address. 
-Therefore it will use that respondent entered address if present otherwise the initial address passed as metadata.
-```
-{{ format_address_list ([answers['address-line1'], answers['address-line2'], answers['locality'], answers['town-name'], answers['postcode']], [metadata['address_line1'], metadata['address_line2'], metadata['locality'], metadata['town_name'], metadata['postcode']]) }}
-```
-
-##### Examples:
-```
-first_address = ["44", "High Stret", "", "Big City", ""]
-second_address = ["123", "Testy", "Place", "Newport", "NP5 7AR"]
-
-Input:                              Output:
-(first_address, second_address)     "44<br />High Street<br />Big City"
-
-first_address = [Undefined(), Undefined(), Undefined()]
-second_address = ["123", "Testy", "Place", "Newport", "NP5 7AR"]
-
-Input:                              Output:
-(first_address, second_address)     "123<br />Testy<br />Place<br />Newport<br />NP5 7AR",
-```
-
-
 ## get_current_date
 Returns the current date.
 
@@ -125,8 +93,7 @@ Uses Babel's [format_datetime](http://babel.pocoo.org/en/latest/api/dates.html#b
 - date_format:  Format of the date to return. Default 'EEEE d MMMM YYYY'
 
 ##### Context:
-Used in LMS for both Questions and Options in order to add day of week to a date. 
-Often combined with `calculate_offset_from_weekday_in_last_whole_week` filter.
+Used in LMS for both Questions and Options in order to add day of week to a date.
 ```
 Did you have a paid job, either as an employee or self-employed, in the week {{ calculate_offset_from_weekday_in_last_whole_week(collection_metadata['started_at'], {}) | format_date_custom( 'EEEE d MMMM YYYY' ) }} to {{ calculate_offset_from_weekday_in_last_whole_week(collection_metadata['started_at'], {}, 'SU') | format_date_custom( 'EEEE d MMMM YYYY' ) }}
  
@@ -163,41 +130,6 @@ Input:                              Output:
 ("2016-01-13", "2018-12-30")        "<span class='date'>13 January 2016</span>"
 ("2016-01-13", None)                "<span class='date'>13 January 2016</span>"
 (None, "2018-12-30")                "<span class='date'>30 December 2018</span>"
-```
-
-## calculate_offset_from_weekday_in_last_whole_week
-Offsets a date from a particular day of the week in the previous week. 
-Intended to be used to generate reference date ranges around a particular date
-The offsets will always be based on one day of the week in the previous Mon-Sun
-
-##### Parameters: 
-- input_datetime:   The datetime (or date) to offset. Defaults to today's date.
-- offset:           Dictionary of the number of days, weeks, or years to offset by as integer values
-- day_of_week:      The day of the previous week to offset from (two letter abbreviation). Default 'MO'
-
-##### Context:
-Used in LMS for both Questions and Options. 
-Used for LMS as they would like reference dates that are more relevant to time you're filling in the survey.
-Often combined with `format_date_custom` filter.
-```
-If you had been offered a job in the week starting {{ calculate_offset_from_weekday_in_last_whole_week(collection_metadata['started_at'], {}) | format_date_custom( 'EEEE d MMMM' ) }} would you be able to start before {{ calculate_offset_from_weekday_in_last_whole_week(collection_metadata['started_at'], {'weeks':2}) | format_date_custom( 'EEEE d MMMM' ) }}?
-
-As an option:
-{{calculate_offset_from_weekday_in_last_whole_week(collection_metadata['started_at'], {}, 'MO') | format_date_custom('EEEE dd MMMM') }}
-```
-
-##### Examples:
-```
-Input:                              Output:
-("2018-08-10", {}, "SU")            "2018-08-05"  # Friday outputs previous Sunday
-("2018-08-10", {}, "FR")            "2018-08-03"  # Friday outputs previous Friday
-("2018-08-10", {"years": 1}, "FR")  "2019-08-03"  # Friday outputs previous Friday + 1 year
-
-("2018-08-05", {}, "SU")            "2018-07-29"  # Sunday outputs previous Sunday (Must be a full week)
-("2018-08-05", {"weeks": 1}, "SU")  "2018-08-05"  # Previous Sunday with +1 week offset
-
-("2018-08-06", {}, "SU")            "2018-08-05"  # Monday outputs previous Sunday
-("2018-08-06", {"days": -1}, "SU")  "2018-08-04"  # Previous Sunday with -1 day offset
 ```
 
 ## calculate_years_difference

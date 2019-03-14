@@ -72,13 +72,12 @@ def build_view_context_for_calculated_summary(metadata, schema, answer_store, sc
 
     context = build_view_context_for_summary(schema, section_list, answer_store, metadata, block_type, schema_context)
 
-    rendered_block = renderer.render(block, **schema_context)
     formatted_total = _get_formatted_total(context['summary'].get('groups', []))
 
     context['summary'].update({
-        'calculated_question': _get_calculated_question(rendered_block['calculation'], answer_store, schema,
+        'calculated_question': _get_calculated_question(block['calculation'], answer_store, schema,
                                                         metadata, formatted_total),
-        'title': get_question_title(rendered_block, answer_store, schema, metadata) % dict(total=formatted_total),
+        'title': get_question_title(block, answer_store, schema, metadata) % dict(total=formatted_total),
     })
     return context
 

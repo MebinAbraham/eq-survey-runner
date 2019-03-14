@@ -59,3 +59,31 @@ class PlaceholderTransforms:
         second_date = datetime.now() if second_date == 'now' else datetime.strptime(second_date, self.input_date_format)
 
         return str(relativedelta(second_date, first_date).years)
+
+    @staticmethod
+    def first_non_empty_item(items):
+        """
+        :param items: anything that is iterable
+        :return: first non empty value
+
+        In this filter the following values are considered non empty:
+        - None
+        - any empty sequence, for example, '', (), [].
+        - any empty mapping, for example, {}.
+
+         Note: to guarantee the returned element is actually the first non empty element in the iterable,
+        'items' must be a data structure that preserves order, ie tuple, list etc.
+        If order is not important, this can be reused to return `one of` the elements which is non empty.
+
+        This filter will treat zero of any numeric type for example, 0, 0.0, 0j and boolean 'False'
+        as a valid item since they are naturally 'falsy' in Python but not empty.
+
+        Note: Booleans are a subtype of integers. Zero of any numeric type 'is not False' but 'equals False'.
+        Reference: https://docs.python.org/release/3.4.2/library/stdtypes.html?highlight=boolean#boolean-values
+        """
+        for item in items:
+            if item or item is False or item == 0:
+                return item
+
+        return ''
+

@@ -23,10 +23,8 @@ class TemplateRenderer:
         env.filters['format_unordered_list'] = filters.format_unordered_list
         env.filters['get_currency_symbol'] = filters.get_currency_symbol
 
-        env.globals['calculate_offset_from_weekday_in_last_whole_week'] = filters.calculate_offset_from_weekday_in_last_whole_week
         env.globals['calculate_years_difference'] = filters.calculate_years_difference
         env.globals['first_non_empty_item'] = filters.first_non_empty_item
-        env.globals['format_address_list'] = filters.format_address_list
         env.globals['format_conditional_date'] = filters.format_conditional_date
         env.globals['format_currency'] = filters.format_currency
         env.globals['format_date_range'] = filters.format_date_range

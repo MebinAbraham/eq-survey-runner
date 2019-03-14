@@ -47,30 +47,6 @@ def format_percentage(value):
     return '{}%'.format(value)
 
 
-@blueprint.app_template_filter()
-def format_address_list(first_address=None, second_address=None):
-    """
-        The function format_address_list accepts two lists of address values.
-        If all the items in the first address list are empty or 'Undefined' then we use the second address.
-
-        :param (list) first_address
-        :param (list) second_address
-        :return: first address if values present else second address
-    """
-    if all(isinstance(field, Undefined) for field in first_address) or \
-       all(field == '' for field in first_address):
-        address = second_address
-    else:
-        address = first_address
-
-    address_list = concatenated_list(list_items=address, delimiter='<br />')
-
-    if not address_list:
-        raise Exception('No valid address passed to format_address_list filter')
-
-    return address_list
-
-
 def format_unit(unit, value, length='short'):
     return units.format_unit(value=value, measurement_unit=unit, length=length, locale=flask_babel.get_locale())
 
@@ -180,45 +156,6 @@ def format_conditional_date(context, *dates):
     """
     first_valid_date = _get_first_non_empty_item(dates)
     return format_date(context, first_valid_date)
-
-
-@blueprint.app_template_filter()
-def calculate_offset_from_weekday_in_last_whole_week(input_datetime, offset, day_of_week='MO'):
-    """
-    Offset a date from a particular day of the week in the previous week.
-
-    Intended to be used to generate reference date ranges around a particular date
-    The offsets will always be based on one day of the week in the previous Mon-Sun
-
-    :param (str) input_datetime: The datetime (or date) to offset. Defaults to now
-    :param (int) offset: The offset dictionary, can contain days, weeks, or years
-    :param (str) day_of_week: The day of the previous week to offset from (two letter abbreviation)
-    :returns (str): The offset date
-    """
-    if input_datetime:
-        parsed_datetime = datetime.strptime(input_datetime.split('T')[0], '%Y-%m-%d')
-    else:
-        parsed_datetime = datetime.utcnow()
-
-    offset_days = offset.get('days', 0)
-    offset_weeks = offset.get('weeks', 0)
-    offset_years = offset.get('years', 0)
-
-    offset = relativedelta.relativedelta(days=offset_days, weeks=offset_weeks, years=offset_years)
-
-    weekdays = ('MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU')
-
-    try:
-        day_of_week_index = weekdays.index(day_of_week)
-    except ValueError:
-        raise Exception('Invalid day of week passed to calculate_offset_from_weekday_in_last_whole_week')
-
-    day_of_week_offset = relativedelta.relativedelta(days=(-parsed_datetime.weekday() - (7 - day_of_week_index)))
-    day_of_last_week = parsed_datetime + day_of_week_offset
-
-    offset_output = day_of_last_week + offset
-
-    return datetime.strftime(offset_output, '%Y-%m-%d')
 
 
 @blueprint.app_template_filter()
