@@ -90,4 +90,3 @@ class PlaceholderTransforms:
                 return item
 
         return ''
-

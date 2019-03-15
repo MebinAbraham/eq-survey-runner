@@ -7,7 +7,7 @@ import flask
 import flask_babel
 from babel import units, numbers
 from dateutil import relativedelta, tz
-from jinja2 import Markup, contextfunction, escape, evalcontextfilter, evalcontextfunction, Undefined
+from jinja2 import Markup, contextfunction, escape, evalcontextfilter, evalcontextfunction
 from jinja2.exceptions import UndefinedError
 
 from app.questionnaire.rules import convert_to_datetime
