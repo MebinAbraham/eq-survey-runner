@@ -62,7 +62,7 @@
                         "type": "Number"
                     }],
                     "id": "total-retail-turnover-question",
-                    "title": "For the period {{ format_conditional_date (answers['date-start-from'], metadata['ref_p_start_date'])}} to {{ format_conditional_date (answers['date-end-to'], metadata['ref_p_end_date'])}}, what was the value of the business\u2019s total retail turnover?",
+                    "title": "For the period {{ format_conditional_date (answe_\ntests/app/templating/test_schema_context.py:27:rs['date-start-from'], metadata['ref_p_start_date'])}} to {{ format_conditional_date (answers['date-end-to'], metadata['ref_p_end_date'])}}, what was the value of the business\u2019s total retail turnover?",
                     "type": "General"
                 }],
                 "title": "Conditional Date Validation"

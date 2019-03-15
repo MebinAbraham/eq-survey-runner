@@ -82,14 +82,44 @@
                 "questions": [{
                     "id": "what-gender-question",
                     "titles": [{
-                        "value": "What is <em>{{[answers['behalf-of-answer']]|format_household_name_possessive}}</em> gender?",
+                        "value": {
+                            "text": "What is <em>{person_name}</em> gender?",
+                            "placeholders": [{
+                                    "placeholder": "person_name",
+                                    "transforms": [{
+                                        "transform": "format_household_name_possessive",
+                                        "arguments": {
+                                            "string_to_format": {
+                                                "source": "answers",
+                                                "identifier": ["behalf-of-answer"]
+                                            }
+                                        }
+                                    }]
+                                }
+                            ]
+                        },
                         "when": [{
                             "id": "behalf-of-answer",
                             "condition": "equals",
                             "value": "chad"
                         }]
                     }, {
-                        "value": "What is <em>{{[answers['behalf-of-answer']]|format_household_name_possessive}}</em> gender?",
+                        "value": {
+                            "text": "What is <em>{person_name}</em> gender?",
+                            "placeholders": [{
+                                    "placeholder": "person_name",
+                                    "transforms": [{
+                                        "transform": "format_household_name_possessive",
+                                        "arguments": {
+                                            "string_to_format": {
+                                                "source": "answers",
+                                                "identifier": ["behalf-of-answer"]
+                                            }
+                                        }
+                                    }]
+                                }
+                            ]
+                        },
                         "when": [{
                             "id": "behalf-of-answer",
                             "condition": "equals",
@@ -126,14 +156,44 @@
                 }, {
                     "id": "what-age-question",
                     "titles": [{
-                        "value": "What is <em>{{[answers['behalf-of-answer']]|format_household_name_possessive}}</em> age?",
+                        "value": {
+                            "text": "What is <em>{person_name}</em> age?",
+                            "placeholders": [{
+                                    "placeholder": "person_name",
+                                    "transforms": [{
+                                        "transform": "format_household_name_possessive",
+                                        "arguments": {
+                                            "string_to_format": {
+                                                "source": "answers",
+                                                "identifier": ["behalf-of-answer"]
+                                            }
+                                        }
+                                    }]
+                                }
+                            ]
+                        },
                         "when": [{
                             "id": "behalf-of-answer",
                             "condition": "equals",
                             "value": "chad"
                         }]
                     }, {
-                        "value": "What is <em>{{[answers['behalf-of-answer']]|format_household_name_possessive}}</em> age?",
+                        "value": {
+                            "text": "What is <em>{person_name}</em> age?",
+                            "placeholders": [{
+                                    "placeholder": "person_name",
+                                    "transforms": [{
+                                        "transform": "format_household_name_possessive",
+                                        "arguments": {
+                                            "string_to_format": {
+                                                "source": "answers",
+                                                "identifier": ["behalf-of-answer"]
+                                            }
+                                        }
+                                    }]
+                                }
+                            ]
+                        },
                         "when": [{
                             "id": "behalf-of-answer",
                             "condition": "equals",

@@ -31,6 +31,10 @@ class PlaceholderTransforms:
         return formatted_list
 
     @staticmethod
+    def remove_empty(list_to_filter):
+        return [item for item in list_to_filter if item]
+
+    @staticmethod
     def concatenate_list(list_to_concatenate, delimiter):
         return delimiter.join(list_to_concatenate)
 

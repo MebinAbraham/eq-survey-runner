@@ -106,7 +106,17 @@
                             "value": "Mary"
                         }]
                     }, {
-                        "value": "Is <em>{{[answers['name-answer']]|format_household_name}}</em> the boss?"
+                        "value": {
+                            "text": "Is <em>{name}</em> the boss?",
+                            "placeholders": [{
+                                "placeholder": "name",
+                                "value": {
+                                    "source": "answers",
+                                    "identifier": "name-answer"
+                                }
+                            }]
+                        }
+
                     }],
                     "answers": [{
                         "id": "radio-answer",

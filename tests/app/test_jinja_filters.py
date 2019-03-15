@@ -8,7 +8,7 @@ from jinja2 import Undefined, Markup
 from mock import Mock
 
 from app.jinja_filters import (
-    format_date, format_conditional_date, format_currency, get_currency_symbol,
+    format_date, format_conditional_date, get_currency_symbol,
     format_multilined_string, format_percentage, format_date_range,
     format_household_name, format_datetime,
     format_number_to_alphabetic_letter, format_unit,
@@ -33,17 +33,6 @@ class TestJinjaFilters(AppContextTestCase):  # pylint: disable=too-many-public-m
         self.assertEqual(get_currency_symbol('USD'), 'US$')
         self.assertEqual(get_currency_symbol('JPY'), 'JP¥')
         self.assertEqual(get_currency_symbol(''), '')
-
-    @patch('app.jinja_filters.flask_babel.get_locale', Mock(return_value='en_GB'))
-    def test_format_currency(self):
-        self.assertEqual(format_currency(self.autoescape_context, '11', 'GBP'), "<span class='date'>£11.00</span>")
-        self.assertEqual(format_currency(self.autoescape_context, '11.99', 'GBP'), "<span class='date'>£11.99</span>")
-        self.assertEqual(format_currency(self.autoescape_context, '11000', 'USD'), "<span class='date'>US$11,000.00</span>")
-        self.assertEqual(format_currency(self.autoescape_context, 0), "<span class='date'>£0.00</span>")
-        self.assertEqual(format_currency(self.autoescape_context, 0.00), "<span class='date'>£0.00</span>")
-        self.assertEqual(format_currency(self.autoescape_context, '', ), "<span class='date'></span>")
-        self.assertEqual(format_currency(self.autoescape_context, None), "<span class='date'></span>")
-        self.assertEqual(format_currency(self.autoescape_context, Undefined()), "<span class='date'></span>")
 
     @patch('app.jinja_filters.flask_babel.get_locale', Mock(return_value='en_GB'))
     def test_format_number(self):

@@ -26,7 +26,6 @@ class TemplateRenderer:
         env.globals['calculate_years_difference'] = filters.calculate_years_difference
         env.globals['first_non_empty_item'] = filters.first_non_empty_item
         env.globals['format_conditional_date'] = filters.format_conditional_date
-        env.globals['format_currency'] = filters.format_currency
         env.globals['format_date_range'] = filters.format_date_range
         env.globals['format_date_range_no_repeated_month_year'] = filters.format_date_range_no_repeated_month_year
         env.globals['format_unordered_list_missing_items'] = filters.format_unordered_list_missing_items

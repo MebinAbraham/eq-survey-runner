@@ -1,7 +1,6 @@
 from app.helpers.form_helper import get_form_for_location
 from app.jinja_filters import get_formatted_currency, format_number, format_unit, format_percentage
 from app.templating.summary_context import build_summary_rendering_context
-from app.templating.template_renderer import renderer
 from app.templating.utils import get_title_from_titles, get_question_title
 
 

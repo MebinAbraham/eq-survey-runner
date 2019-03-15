@@ -35,7 +35,24 @@
                     }],
                     "description": "",
                     "id": "date-questions",
-                    "title": "Enter a date greater than Return date: {{ metadata['return_by']|format_date }}",
+                    "title": {
+                            "text": "Enter a date greater than Return date: {date}",
+                            "placeholders": [{
+                                "placeholder": "date",
+                                "transforms": [{
+                                    'transform': 'format_date',
+                                        'arguments': {
+                                            'date_to_format': {
+                                                'source': 'metadata',
+                                                'identifier': ['return_by']
+                                            },
+                                            'date_format': {
+                                                "value": 'd MMMM YYYY'
+                                            }
+                                        }
+                                }]
+                            }]
+                        },
                     "type": "General"
                 }],
                 "title": "",
@@ -59,7 +76,24 @@
                 "type": "Interstitial",
                 "id": "incorrect-answer",
                 "title": "Incorrect Date",
-                "description": "You entered a return date earlier than {{ metadata['return_by']|format_date }}.",
+                "description": {
+                            "text": "You entered a return date earlier than {date}",
+                            "placeholders": [{
+                                "placeholder": "date",
+                                "transforms": [{
+                                    'transform': 'format_date',
+                                        'arguments': {
+                                            'date_to_format': {
+                                                'source': 'metadata',
+                                                'identifier': ['return_by']
+                                            },
+                                            'date_format': {
+                                                "value": 'd MMMM YYYY'
+                                            }
+                                        }
+                                }]
+                            }]
+                        },
                 "routing_rules": [{
                     "goto": {
                         "block": "summary"
@@ -69,7 +103,24 @@
                 "type": "Interstitial",
                 "id": "correct-answer",
                 "title": "Correct Date",
-                "description": "You entered a return date later than {{ metadata['return_by']|format_date }}."
+                "description": {
+                            "text": "You entered a return date later than {date}",
+                            "placeholders": [{
+                                "placeholder": "date",
+                                "transforms": [{
+                                    'transform': 'format_date',
+                                        'arguments': {
+                                            'date_to_format': {
+                                                'source': 'metadata',
+                                                'identifier': ['return_by']
+                                            },
+                                            'date_format': {
+                                                "value": 'd MMMM YYYY'
+                                            }
+                                        }
+                                }]
+                            }]
+                        }
             }, {
                 "type": "Summary",
                 "id": "summary"
