@@ -61,12 +61,13 @@
                         "placeholders": [{
                             "placeholder": "date",
                             "transforms": [{
-                                "transform": "format_number",
+                                "transform": "format_date",
                                 "arguments": {
-                                    "number": {
+                                    "date_to_format": {
                                         "source": "answers",
-                                        "identifier": ["comparison-date-answer"]
-                                    }
+                                        "identifier": "comparison-date-answer"
+                                    },
+                                    "date_format": "d MMMM YYYY"
                                 }
                             }]
                         }]
