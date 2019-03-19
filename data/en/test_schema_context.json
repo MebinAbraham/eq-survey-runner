@@ -48,21 +48,93 @@
                     "id": "preview",
                     "title": "",
                     "content": [{
-                        "title": "period_str: {{ metadata['period_str'] }}"
+                        "title": {
+                            "text": "period_str: {period_str}",
+                            "placeholders": [{
+                                "placeholder": "period_str",
+                                "value": {
+                                    "source": "metadata",
+                                    "identifier": "period_str"
+                                }
+                            }]
+                        }
                     }, {
-                        "title": "ru_name: {{ metadata['ru_name'] }}"
+                        "title": {
+                            "text": "ru_name: {ru_name}",
+                            "placeholders": [{
+                                "placeholder": "ru_name",
+                                "value": {
+                                    "source": "metadata",
+                                    "identifier": "ru_name"
+                                }
+                            }]
+                        }
                     }, {
-                        "title": "trad_as: {{ metadata['trad_as'] }}"
+                        "title": {
+                            "text": "trad_as: {trad_as}",
+                            "placeholders": [{
+                                "placeholder": "trad_as",
+                                "value": {
+                                    "source": "metadata",
+                                    "identifier": "trad_as"
+                                }
+                            }]
+                        }
                     }, {
-                        "title": "ref_p_start_date: {{ metadata['ref_p_start_date'] }}"
+                        "title": {
+                            "text": "ref_p_start_date: {ref_p_start_date}",
+                            "placeholders": [{
+                                "placeholder": "ref_p_start_date",
+                                "value": {
+                                    "source": "metadata",
+                                    "identifier": "ref_p_start_date"
+                                }
+                            }]
+                        }
                     }, {
-                        "title": "ref_p_end_date: {{ metadata['ref_p_end_date'] }}"
+                        "title": {
+                            "text": "ref_p_end_date: {ref_p_end_date}",
+                            "placeholders": [{
+                                "placeholder": "ref_p_end_date",
+                                "value": {
+                                    "source": "metadata",
+                                    "identifier": "ref_p_end_date"
+                                }
+                            }]
+                        }
                     }, {
-                        "title": "employment_date: {{ metadata['employment_date'] }}"
+                        "title": {
+                            "text": "employment_date: {employment_date}",
+                            "placeholders": [{
+                                "placeholder": "employment_date",
+                                "value": {
+                                    "source": "metadata",
+                                    "identifier": "employment_date"
+                                }
+                            }]
+                        }
                     }, {
-                        "title": "return_by: {{ metadata['return_by'] }}"
+                        "title": {
+                            "text": "return_by: {return_by}",
+                            "placeholders": [{
+                                "placeholder": "return_by",
+                                "value": {
+                                    "source": "metadata",
+                                    "identifier": "return_by"
+                                }
+                            }]
+                        }
                     }, {
-                        "title": "region_code: {{ metadata['region_code'] }}"
+                        "title": {
+                            "text": "region_code: {region_code}",
+                            "placeholders": [{
+                                "placeholder": "region_code",
+                                "value": {
+                                    "source": "metadata",
+                                    "identifier": "region_code"
+                                }
+                            }]
+                        }
                     }]
                 }]
             }],
