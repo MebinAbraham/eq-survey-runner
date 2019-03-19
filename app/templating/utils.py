@@ -17,7 +17,5 @@ def get_title_from_titles(metadata, schema, answer_store, titles):
     """returns a title from titles available by evaluating the when rules , if all fail returns default"""
     for when, value in ((title['when'], title['value']) for title in titles if 'when' in title):
         if evaluate_when_rules(when, schema, metadata, answer_store):
-            if isinstance(value, dict) and 'text' in value:
-                return value['text']
             return value
     return titles[-1]['value']

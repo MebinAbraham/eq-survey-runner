@@ -450,6 +450,9 @@ def get_page_title_for_location(schema, current_location, metadata, answer_store
     elif block['type'] == 'Question':
         first_question = next(schema.get_questions_for_block(block))
         question_title = get_question_title(first_question, answer_store, schema, metadata)
+        if isinstance(question_title, dict) and 'text' in question_title:
+            question_title = question_title['text']
+
         page_title = '{question_title} - {survey_title}'.format(question_title=question_title, survey_title=schema.json['title'])
     else:
         page_title = schema.json['title']
