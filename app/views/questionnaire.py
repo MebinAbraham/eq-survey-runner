@@ -133,10 +133,7 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
 
     block = _get_block_json(current_location, schema, answer_store, metadata)
 
-    placeholder_renderer = PlaceholderRenderer(answer_store=answer_store, metadata=metadata)
-    replaced_block = placeholder_renderer.render(block)
-
-    form = _generate_wtf_form(request.form, replaced_block, schema)
+    form = _generate_wtf_form(request.form, block, schema)
 
     if 'action[save_sign_out]' in request.form:
         return _save_sign_out(current_location, form, schema, answer_store, metadata)
@@ -156,6 +153,10 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
             return submit_answers(routing_path, schema)
 
         return redirect(next_location.url())
+
+    placeholder_renderer = PlaceholderRenderer(answer_store=answer_store, metadata=metadata)
+    replaced_block = placeholder_renderer.render(block)
+    form = _generate_wtf_form(request.form, block, schema)
 
     context = build_view_context(block['type'], metadata, schema, answer_store, replaced_block, current_location, form)
 

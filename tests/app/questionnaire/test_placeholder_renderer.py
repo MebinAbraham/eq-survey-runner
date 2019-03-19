@@ -151,10 +151,10 @@ class TestPlaceholderRenderer(AppContextTestCase):
         renderer = PlaceholderRenderer()
 
         with self.assertRaises(ValueError):
-            renderer.render_pointer({
+            dict_to_render = {
                 'invalid': {
                     'no': 'placeholders',
                     'in': 'this'
                 }
-            },
-                                    '/invalid')
+            }
+            renderer.render_pointer(dict_to_render, '/invalid')
