@@ -49,49 +49,47 @@
                     "title": "Enter Date Range",
                     "type": "DateRange",
                     "guidance": {
-                        "content": [
-                            {
-                                "description": {
-                                    "text": "Period 'from' date should be greater than 19 days before {date}",
-                                    "placeholders": [{
-                                        "placeholder": "date",
-                                        "transforms": [{
-                                            'transform': 'format_date',
-                                                'arguments': {
-                                                    'date_to_format': {
-                                                        'source': 'metadata',
-                                                        'identifier': ['ref_p_start_date']
-                                                    },
-                                                    'date_format': {
-                                                        "value": 'd MMMM YYYY'
-                                                    }
-                                                }
-                                        }]
+                        "content": [{
+                            "description": {
+                                "text": "Period 'from' date should be greater than 19 days before {date}",
+                                "placeholders": [{
+                                    "placeholder": "date",
+                                    "transforms": [{
+                                        'transform': 'format_date',
+                                        'arguments': {
+                                            'date_to_format': {
+                                                'source': 'metadata',
+                                                'identifier': ['ref_p_start_date']
+                                            },
+                                            'date_format': {
+                                                "value": 'd MMMM YYYY'
+                                            }
+                                        }
                                     }]
-                                }
-                            },{
-                                "description": "Period 'from' should also be no greater than 20 days after 11 June 2017"
-                            },{
-                                "description": {
-                                    "text": "Period 'to' date should be greater than 1 month 10 days after {date}",
-                                    "placeholders": [{
-                                        "placeholder": "date",
-                                        "transforms": [{
-                                            'transform': 'format_date',
-                                                'arguments': {
-                                                    'date_to_format': {
-                                                        'source': 'answers',
-                                                        'identifier': ['date']
-                                                    },
-                                                    'date_format': {
-                                                        "value": 'd MMMM YYYY'
-                                                    }
-                                                }
-                                        }]
+                                }]
+                            }
+                        }, {
+                            "description": "Period 'from' should also be no greater than 20 days after 11 June 2017"
+                        }, {
+                            "description": {
+                                "text": "Period 'to' date should be greater than 1 month 10 days after {date}",
+                                "placeholders": [{
+                                    "placeholder": "date",
+                                    "transforms": [{
+                                        'transform': 'format_date',
+                                        'arguments': {
+                                            'date_to_format': {
+                                                'source': 'answers',
+                                                'identifier': ['date']
+                                            },
+                                            'date_format': {
+                                                "value": 'd MMMM YYYY'
+                                            }
+                                        }
                                     }]
-                                }
-                            },
-                        ]
+                                }]
+                            }
+                        }, ]
                     },
                     "answers": [{
                         "id": "date-range-from",

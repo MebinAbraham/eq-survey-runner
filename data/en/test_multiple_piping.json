@@ -110,15 +110,15 @@
                             "placeholder": "person",
                             "transforms": [{
                                 "transform": "concatenate_list",
-                                    "arguments": {
-                                        "list_to_concatenate": {
-                                            "source": "answers",
-                                            "identifier": ["first-text", "second-text"]
-                                        },
-                                        "delimiter": " "
-                                    }
+                                "arguments": {
+                                    "list_to_concatenate": {
+                                        "source": "answers",
+                                        "identifier": ["first-text", "second-text"]
+                                    },
+                                    "delimiter": " "
+                                }
                             }]
-                        },{
+                        }, {
                             "placeholder": "address",
                             "value": {
                                 "source": "answers",
@@ -138,21 +138,21 @@
                                     "placeholder": "address",
                                     "transforms": [{
                                         "transform": "remove_empty",
-                                            "arguments": {
-                                                "list_to_filter": {
-                                                    "source": "answers",
-                                                    "identifier": ["building", "address-line-1", "address-line-2", "address-line-3", "town-city", "county", "postcode", "country"]
-                                                }
+                                        "arguments": {
+                                            "list_to_filter": {
+                                                "source": "answers",
+                                                "identifier": ["building", "address-line-1", "address-line-2", "address-line-3", "town-city", "county", "postcode", "country"]
                                             }
-                                    },{
+                                        }
+                                    }, {
                                         "transform": "concatenate_list",
-                                            "arguments": {
-                                                "list_to_concatenate": {
-                                                    "source": "previous_transform",
-                                                    "identifier": "remove_empty"
-                                                },
-                                                "delimiter": ", "
-                                            }
+                                        "arguments": {
+                                            "list_to_concatenate": {
+                                                "source": "previous_transform",
+                                                "identifier": "remove_empty"
+                                            },
+                                            "delimiter": ", "
+                                        }
                                     }]
                                 }]
                             },

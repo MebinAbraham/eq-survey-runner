@@ -54,15 +54,15 @@
                 "id": "incorrect-answer",
                 "title": "You entered 123, which is wrong",
                 "description": {
-                        "text": "You were asked not to enter <em>123</em> but you entered <em>{answer}</em>.",
-                        "placeholders": [{
-                            "placeholder": "answer",
-                            "value": {
-                                "source": "answers",
-                                "identifier": "answer"
-                            }
-                        }]
-                    },
+                    "text": "You were asked not to enter <em>123</em> but you entered <em>{answer}</em>.",
+                    "placeholders": [{
+                        "placeholder": "answer",
+                        "value": {
+                            "source": "answers",
+                            "identifier": "answer"
+                        }
+                    }]
+                },
                 "routing_rules": [{
                     "goto": {
                         "block": "summary"
@@ -73,15 +73,15 @@
                 "id": "correct-answer",
                 "title": "You did not enter 123",
                 "description": {
-                        "text": "You were asked not to enter <em>123</em> and you entered <em>{answer}</em>.",
-                        "placeholders": [{
-                            "placeholder": "answer",
-                            "value": {
-                                "source": "answers",
-                                "identifier": "answer"
-                            }
-                        }]
-                    }
+                    "text": "You were asked not to enter <em>123</em> and you entered <em>{answer}</em>.",
+                    "placeholders": [{
+                        "placeholder": "answer",
+                        "value": {
+                            "source": "answers",
+                            "identifier": "answer"
+                        }
+                    }]
+                }
             }, {
                 "type": "Summary",
                 "id": "summary"
