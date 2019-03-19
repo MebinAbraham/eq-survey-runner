@@ -1,16 +1,16 @@
+from app.questionnaire.placeholder_renderer import PlaceholderRenderer
 from app.templating.summary.block import Block
-from app.templating.template_renderer import renderer
 
 
 class Group:
 
-    def __init__(self, group_schema, path, answer_store, metadata, schema, schema_context):
+    def __init__(self, group_schema, path, answer_store, metadata, schema):
         self.id = group_schema['id']
-        self.schema_context = schema_context
 
         self.title = group_schema.get('title')
 
         self.blocks = self._build_blocks(group_schema, path, answer_store, metadata, schema)
+        self.placeholder_renderer = PlaceholderRenderer(answer_store=answer_store, metadata=metadata)
 
     @staticmethod
     def _build_blocks(group_schema, path, answer_store, metadata, schema):
@@ -26,11 +26,8 @@ class Group:
         return blocks
 
     def serialize(self):
-        return renderer.render(
-            {
-                'id': self.id,
-                'title': self.title,
-                'blocks': self.blocks,
-            },
-            **self.schema_context
-        )
+        return self.placeholder_renderer.render({
+            'id': self.id,
+            'title': self.title,
+            'blocks': self.blocks,
+        })

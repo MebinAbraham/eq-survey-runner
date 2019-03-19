@@ -1,6 +1,5 @@
+from jinja2 import escape
 from app.libs.utils import convert_tx_id
-from app.templating.schema_context import json_and_html_safe
-from app.templating.schema_context import build_schema_metadata
 from app.utilities.schema import load_schema_from_metadata
 
 
@@ -41,3 +40,17 @@ def build_metadata_context_for_survey_completed(session_data):
         metadata_context['ru_name'] = session_data.ru_name
 
     return metadata_context
+
+
+def build_schema_metadata(metadata, schema):
+    schema_metadata = schema.json['metadata']
+    parsed = {metadata_field['name']: json_and_html_safe(metadata[metadata_field['name']])
+              for metadata_field in schema_metadata if metadata_field['name'] in metadata}
+
+    return parsed
+
+
+def json_and_html_safe(data):
+    if data and isinstance(data, str):
+        return escape(data.replace('\\', r'\\'))
+    return data

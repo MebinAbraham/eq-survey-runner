@@ -8,7 +8,7 @@ from app.data_model.questionnaire_store import QuestionnaireStore
 from app.questionnaire.location import Location
 from app.templating.view_context import build_view_context
 from app.utilities.schema import load_schema_from_params
-from app.views.questionnaire import get_page_title_for_location, _get_schema_context
+from app.views.questionnaire import get_page_title_for_location
 from tests.integration.integration_test_case import IntegrationTestCase
 
 
@@ -87,16 +87,11 @@ class TestQuestionnaire(IntegrationTestCase):
         # Given
         g.schema = schema = load_schema_from_params('test', 'titles')
         block = g.schema.get_block('single-title-block')
-        full_routing_path = [Location('single-title-block'),
-                             Location('who-is-answer-block'),
-                             Location('multiple-question-versions-block'),
-                             Location('Summary')]
         current_location = Location('single-title-block')
-        schema_context = _get_schema_context(full_routing_path, {}, {}, AnswerStore(), g.schema)
 
         # When
         with self._application.test_request_context():
-            question_view_context = build_view_context('Question', {}, schema, AnswerStore(), schema_context, block,
+            question_view_context = build_view_context('Question', {}, schema, AnswerStore(), block,
                                                        current_location, form=None)
 
         # Then
@@ -118,16 +113,12 @@ class TestQuestionnaire(IntegrationTestCase):
             {'answer_id': 'third-number-answer', 'value': 4},
             {'answer_id': 'fourth-number-answer', 'value': 6},
         ]
-        schema_context = {
-            'answers': answers,
-            'metadata': metadata
-        }
         current_location = Location('currency-total-playback')
 
         # When
         with self._application.test_request_context():
             view_context = build_view_context(block['type'], metadata, schema, AnswerStore(answers),
-                                              schema_context, block, current_location, form=None)
+                                              block, current_location, form=None)
 
         # Then
         self.assertTrue('summary' in view_context)
