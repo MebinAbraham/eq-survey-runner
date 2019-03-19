@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from jsonpointer import set_pointer, resolve_pointer
 
 from app.data_model.answer_store import AnswerStore
@@ -54,11 +56,11 @@ class PlaceholderRenderer:
 
         :return:
         """
-        rendered_data = dict_to_render.copy()
-        pointer_list = find_pointers_containing(dict_to_render, 'placeholders')
+        rendered_data = deepcopy(dict_to_render)
+        pointer_list = find_pointers_containing(rendered_data, 'placeholders')
 
         for pointer in pointer_list:
-            rendered_text = self.render_pointer(dict_to_render, pointer)
+            rendered_text = self.render_pointer(rendered_data, pointer)
             set_pointer(rendered_data, pointer, rendered_text)
 
         return rendered_data

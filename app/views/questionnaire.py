@@ -111,7 +111,9 @@ def get_block(routing_path, schema, metadata, answer_store, block_id):
 
     context = _get_context(replaced_block, current_location, schema)
 
-    return _render_page(block['type'], context, current_location, schema, answer_store, metadata)
+    page_title = get_page_title_for_location(schema, current_location, metadata, answer_store)
+
+    return _render_page(block['type'], context, current_location, page_title)
 
 
 @questionnaire_blueprint.route('<block_id>', methods=['POST'])
@@ -158,7 +160,9 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
 
     context = build_view_context(block['type'], metadata, schema, answer_store, replaced_block, current_location, form)
 
-    return _render_page(block['type'], context, current_location, schema, answer_store, metadata)
+    page_title = get_page_title_for_location(schema, current_location, metadata, answer_store)
+
+    return _render_page(block['type'], context, current_location, page_title)
 
 
 @post_submission_blueprint.route('thank-you', methods=['GET'])
@@ -280,7 +284,7 @@ def _set_started_at_metadata_if_required(form, collection_metadata):
         collection_metadata['started_at'] = started_at
 
 
-def _render_page(block_type, context, current_location, schema, answer_store, metadata):
+def _render_page(block_type, context, current_location, page_title):
     if request_wants_json():
         return jsonify(context)
 
@@ -288,9 +292,7 @@ def _render_page(block_type, context, current_location, schema, answer_store, me
         current_location,
         context,
         block_type,
-        schema,
-        answer_store,
-        metadata)
+        page_title)
 
 
 def _generate_wtf_form(form, block, schema):
@@ -406,7 +408,9 @@ def _save_sign_out(current_location, form, schema, answer_store, metadata):
         return redirect(url_for('session.get_sign_out'))
 
     context = _get_context(block, current_location, schema, form)
-    return _render_page(block['type'], context, current_location, schema, answer_store, metadata)
+    page_title = get_page_title_for_location(schema, current_location, metadata, answer_store)
+
+    return _render_page(block['type'], context, current_location, page_title)
 
 
 def _evaluate_skip_conditions(block_json, schema, answer_store, metadata):
@@ -453,21 +457,19 @@ def get_page_title_for_location(schema, current_location, metadata, answer_store
     return safe_content(page_title)
 
 
-def _build_template(current_location, context, template, schema, answer_store, metadata):
+def _build_template(current_location, context, template, page_title):
     previous_location = path_finder.get_previous_location(current_location)
     previous_url = previous_location.url() if previous_location is not None else None
 
-    return _render_template(context, current_location, template, previous_url, schema, metadata, answer_store)
+    return _render_template(context, current_location, template, previous_url, page_title)
 
 
 @with_session_timeout
 @with_metadata_context
 @with_analytics
 @with_legal_basis
-def _render_template(context, current_location, template, previous_url, schema, metadata, answer_store,
+def _render_template(context, current_location, template, previous_url, page_title,
                      **kwargs):
-    page_title = get_page_title_for_location(schema, current_location, metadata, answer_store)
-
     session_store = get_session_store()
     session_data = session_store.session_data
 

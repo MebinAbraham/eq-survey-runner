@@ -78,7 +78,7 @@ def safe_content(content):
     """
     if content is not None:
         # Replace piping with ellipsis
-        content = re.sub(r'{{.*?}}', '…', content)
+        content = re.sub(r'{.*?}', '…', content)
         # Strip HTML Tags
         content = re.sub(r'</?[^>]+>', '', content)
     return content
