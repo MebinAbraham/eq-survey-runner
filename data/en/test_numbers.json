@@ -80,9 +80,7 @@
                                                     "arguments": {
                                                         "number": {
                                                             "source": "answers",
-                                                            "identifier": [
-                                                                "set-minimum"
-                                                            ]
+                                                            "identifier": "set-minimum"
                                                         }
                                                     }
                                                 }]
@@ -94,9 +92,7 @@
                                                     "arguments": {
                                                         "number": {
                                                             "source": "answers",
-                                                            "identifier": [
-                                                                "set-maximum"
-                                                            ]
+                                                            "identifier": "set-maximum"
                                                         }
                                                     }
                                                 }]
@@ -125,9 +121,7 @@
                                                     "arguments": {
                                                         "number": {
                                                             "source": "answers",
-                                                            "identifier": [
-                                                                "set-minimum"
-                                                            ]
+                                                            "identifier": "set-minimum"
                                                         }
                                                     }
                                                 }]
@@ -139,9 +133,7 @@
                                                     "arguments": {
                                                         "number": {
                                                             "source": "answers",
-                                                            "identifier": [
-                                                                "set-maximum"
-                                                            ]
+                                                            "identifier": "set-maximum"
                                                         }
                                                     }
                                                 }]
@@ -224,9 +216,7 @@
                                                     "arguments": {
                                                         "number": {
                                                             "source": "answers",
-                                                            "identifier": [
-                                                                "set-minimum"
-                                                            ]
+                                                            "identifier": "set-minimum"
                                                         }
                                                     }
                                                 }]
@@ -238,9 +228,7 @@
                                                     "arguments": {
                                                         "number": {
                                                             "source": "answers",
-                                                            "identifier": [
-                                                                "set-maximum"
-                                                            ]
+                                                            "identifier": "set-maximum"
                                                         }
                                                     }
                                                 }]

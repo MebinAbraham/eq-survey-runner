@@ -51,9 +51,7 @@
                                 "arguments": {
                                     "first_date": {
                                         "source": "answers",
-                                        "identifier": [
-                                            "date-dob"
-                                        ]
+                                        "identifier": "date-dob"
                                     },
                                     "second_date": {
                                         "value": "now"
