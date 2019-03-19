@@ -44,7 +44,7 @@
                                 "arguments": {
                                     "date_to_format": {
                                         "source": "metadata",
-                                        "identifier": ["return_by"]
+                                        "identifier": "return_by"
                                     },
                                     "date_format": "d MMMM YYYY"
                                 }
@@ -83,7 +83,7 @@
                             "arguments": {
                                 "date_to_format": {
                                     "source": "metadata",
-                                    "identifier": ["return_by"]
+                                    "identifier": "return_by"
                                 },
                                 "date_format": "d MMMM YYYY"
                             }
@@ -108,7 +108,7 @@
                             "arguments": {
                                 "date_to_format": {
                                     "source": "metadata",
-                                    "identifier": ["return_by"]
+                                    "identifier": "return_by"
                                 },
                                 "date_format": "d MMMM YYYY"
                             }

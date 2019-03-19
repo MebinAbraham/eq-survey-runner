@@ -56,11 +56,11 @@
                                 "arguments": {
                                     "first_date": {
                                         "source": "answers",
-                                        "identifier": ["period-from"]
+                                        "identifier": "period-from"
                                     },
                                     "second_date": {
                                         "source": "answers",
-                                        "identifier": ["period-to"]
+                                        "identifier": "period-to"
                                     }
                                 }
                             }]

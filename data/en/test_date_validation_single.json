@@ -59,7 +59,7 @@
                                         "arguments": {
                                             "date_to_format": {
                                                 "source": "metadata",
-                                                "identifier": ["ref_p_start_date"]
+                                                "identifier": "ref_p_start_date"
                                             },
                                             "date_format": "d MMMM YYYY"
                                         }
@@ -78,7 +78,7 @@
                                         "arguments": {
                                             "date_to_format": {
                                                 "source": "answers",
-                                                "identifier": ["date"]
+                                                "identifier": "date"
                                             },
                                             "date_format": "d MMMM YYYY"
                                         }
