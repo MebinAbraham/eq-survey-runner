@@ -105,7 +105,7 @@
                     "description": "The most recent of the dates <em>Single date</em> and <em>Non-mandatory date</em>: <em>{{ max_value(answers['single-date-answer'], answers['non-mandatory-date-answer']) }}</em>"
                 }, {
                     "description": "The least recent of the dates <em>Single date</em> and <em>Non-mandatory date</em> (if non-mandatory date is unset this will be blank): <em>{{ min_value(answers['single-date-answer'], answers['non-mandatory-date-answer']) }}</em>"
-                } ]
+                }]
             }, {
                 "type": "Summary",
                 "id": "summary"

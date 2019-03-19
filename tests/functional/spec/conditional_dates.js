@@ -3,7 +3,7 @@ const DatesPage = require('../generated_pages/conditional_dates/date-block.page'
 const DatesConfirmationPage = require('../generated_pages/conditional_dates/date-value-test.page');
 const SummaryPage = require('../generated_pages/conditional_dates/summary.page');
 
-describe('Piped Dates', function () {
+describe.skip('Piped Dates', function () {
 
   it('Given the test_conditional_dates survey is selected when dates are entered then the summary screen shows the dates entered, formatted', function() {
 
