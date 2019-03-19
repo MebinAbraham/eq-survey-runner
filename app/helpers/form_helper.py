@@ -48,7 +48,7 @@ def post_form_for_block(schema, block_json, answer_store, metadata, request_form
     if disable_mandatory:
         block_json = disable_mandatory_answers(block_json)
 
-    data = clear_detail_answer_field(request_form, schema.get_questions_for_block(block_json))
+    data = clear_detail_answer_field(request_form, schema.get_all_questions_for_block(block_json))
     return generate_form(schema, block_json, answer_store, metadata, formdata=data)
 
 

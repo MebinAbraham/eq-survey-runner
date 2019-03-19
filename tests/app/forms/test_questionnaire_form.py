@@ -490,7 +490,7 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
 
             form = generate_form(schema, block_json, AnswerStore(), metadata=None, formdata=data)
 
-            with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_questions_for_block',
+            with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_all_questions_for_block',
                        return_value=[question_json]):
                 form.validate()
                 self.assertIn(form.question_errors['date-range-question'], 'Test Message')
@@ -546,7 +546,7 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
             form = generate_form(schema, block_json, AnswerStore(), metadata=None, formdata=data)
 
             with self.assertRaises(Exception) as ite:
-                with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_questions_for_block',
+                with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_all_questions_for_block',
                            return_value=[question_json]):
                     form.validate()
                     self.assertEqual('The schema has invalid period_limits for date-range-question', str(ite.exception))
@@ -602,7 +602,7 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
             form = generate_form(schema, block_json, AnswerStore(), metadata=None, formdata=data)
 
             with self.assertRaises(Exception) as ite:
-                with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_questions_for_block',
+                with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_all_questions_for_block',
                            return_value=[question_json]):
                     form.validate()
                     self.assertEqual('The schema has invalid period_limits for date-range-question', str(ite.exception))
@@ -666,7 +666,7 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
 
 
             with self.assertRaises(Exception) as ite:
-                with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_questions_for_block', return_value=[question_json]):
+                with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_all_questions_for_block', return_value=[question_json]):
                     form.validate()
                     self.assertEqual('The schema has invalid date answer limits for date-range-question', str(ite.exception))
 
@@ -718,7 +718,7 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
             form = generate_form(schema, block_json, store, metadata=None, formdata=data)
 
             with self.assertRaises(Exception) as ite:
-                with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_questions_for_block',
+                with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_all_questions_for_block',
                            return_value=[question_json]):
                     form.validate()
             self.assertEqual('Invalid calculation_type: subtraction', str(ite.exception))
@@ -775,7 +775,7 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
 
             form = generate_form(schema, block_json, store, metadata=None, formdata=data)
 
-            with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_questions_for_block',
+            with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_all_questions_for_block',
                        return_value=[question_json]):
                 form.validate()
                 self.assertIn(form.question_errors['breakdown-question'], 'Test Message')

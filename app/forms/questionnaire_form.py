@@ -37,7 +37,7 @@ class QuestionnaireForm(FlaskForm):
         valid_calculated_form = True
         valid_mutually_exclusive_form = True
 
-        for question in self.schema.get_questions_for_block(self.block_json):
+        for question in self.schema.get_all_questions_for_block(self.block_json):
             if question['type'] == 'DateRange' and valid_date_range_form:
                 valid_date_range_form = self.validate_date_range_question(question)
             elif question['type'] == 'Calculated' and valid_calculated_form:
@@ -231,7 +231,7 @@ class QuestionnaireForm(FlaskForm):
     def map_errors(self):
         ordered_errors = []
 
-        question_list = self.schema.get_questions_for_block(self.block_json)
+        question_list = self.schema.get_all_questions_for_block(self.block_json)
 
         for question in question_list:
             if question['id'] in self.question_errors:
@@ -311,7 +311,7 @@ def generate_form(schema, block_json, answer_store, metadata, data=None, formdat
         pass
 
     answer_fields = {}
-    for question in schema.get_questions_for_block(block_json):
+    for question in schema.get_all_questions_for_block(block_json):
         answer_fields.update(get_answer_fields(
             question,
             formdata if formdata is not None else data,

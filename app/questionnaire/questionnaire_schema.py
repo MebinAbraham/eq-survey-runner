@@ -69,17 +69,17 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         block = self.get_block(block_id)
         return self.get_group(block['parent_id'])
 
-    def get_all_questions_for_block(self, block_id):
+    def get_all_questions_for_block_id(self, block_id):
         """ Get all questions that could possibly be displayed for a block """
         block = self.get_block(block_id)
-        return QuestionnaireSchema.get_questions_for_block(block)
+        return QuestionnaireSchema.get_all_questions_for_block(block)
 
     def get_answers_by_id_for_block(self, block_id):
         block = self.get_block(block_id)
         if block:
             answers_by_id = {}
 
-            questions = self.get_all_questions_for_block(block_id)
+            questions = self.get_all_questions_for_block_id(block_id)
 
             for question in questions:
                 for answer in question.get('answers', []):
@@ -104,7 +104,7 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         ]
 
     @staticmethod
-    def get_questions_for_block(block):
+    def get_all_questions_for_block(block):
         all_questions = []
         if block:
             if block.get('question'):
@@ -160,7 +160,7 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         questions_by_id = OrderedDict()
 
         for block in self._blocks_by_id.values():
-            for question in self.get_questions_for_block(block):
+            for question in self.get_all_questions_for_block(block):
                 questions_by_id[question['id']] = question
                 questions_by_id[question['id']]['parent_id'] = block['id']
 

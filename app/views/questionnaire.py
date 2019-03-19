@@ -106,7 +106,7 @@ def get_block(routing_path, schema, metadata, answer_store, block_id):
         next_location = router.get_next_location()
         return _redirect_to_location(next_location)
 
-    block = _get_block_json(current_location, schema)
+    block = schema.get_block(current_location.block_id)
 
     placeholder_renderer = PlaceholderRenderer(block, answer_store=answer_store, metadata=metadata)
     replaced_block = placeholder_renderer.render()
@@ -132,7 +132,7 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
         next_location = router.get_next_location()
         return _redirect_to_location(next_location)
 
-    block = _get_block_json(current_location, schema)
+    block = schema.get_block(current_location.block_id)
 
     placeholder_renderer = PlaceholderRenderer(block, answer_store=answer_store, metadata=metadata)
     replaced_block = placeholder_renderer.render()
@@ -402,7 +402,7 @@ def _is_submission_viewable(schema, submitted_time):
 def _save_sign_out(routing_path, current_location, form, schema, answer_store, metadata):
     questionnaire_store = get_questionnaire_store(current_user.user_id, current_user.user_ik)
 
-    block = _get_block_json(current_location, schema)
+    block = schema.get_block(current_location.block_id)
 
     if form.validate():
         answer_store_updater = AnswerStoreUpdater(current_location, schema, questionnaire_store)
@@ -432,11 +432,6 @@ def _get_context(full_routing_path, block, current_location, schema, form=None):
     rendered_block = renderer.render(block, **schema_context)
 
     return build_view_context(block['type'], metadata, schema, answer_store, schema_context, rendered_block, current_location, form=form)
-
-
-def _get_block_json(current_location, schema):
-    block_json = schema.get_block(current_location.block_id)
-    return block_json
 
 
 def _get_schema_context(full_routing_path, metadata, collection_metadata, answer_store, schema):

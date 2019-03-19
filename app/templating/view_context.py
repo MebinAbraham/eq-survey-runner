@@ -2,7 +2,7 @@ from app.helpers.form_helper import get_form_for_location
 from app.jinja_filters import get_formatted_currency, format_number, format_unit, format_percentage
 from app.templating.summary_context import build_summary_rendering_context
 from app.templating.template_renderer import renderer
-from app.templating.utils import get_question_to_display
+from app.helpers.schema_helpers import choose_question_to_display
 
 
 def build_view_context(block_type, metadata, schema, answer_store, schema_context, rendered_block, current_location, form):
@@ -91,7 +91,7 @@ def build_view_context_for_non_question(rendered_block):
 
 
 def build_view_context_for_question(metadata, schema, answer_store, rendered_block, form):  # noqa: C901, E501  pylint: disable=too-complex,line-too-long,too-many-locals,too-many-branches
-    question = get_question_to_display(rendered_block, metadata, answer_store, schema)
+    question = choose_question_to_display(rendered_block, schema, metadata, answer_store)
     rendered_block.pop('question_variants', None)
     rendered_block.pop('question', None)
 
@@ -163,7 +163,7 @@ def _remove_unwanted_questions_answers(block, answers_in_block, answer_ids_to_ke
     """
     Evaluates questions in a block and removes any questions not containing a relevant answer
     """
-    block_question = get_question_to_display(block, answer_store, metadata, schema)
+    block_question = choose_question_to_display(block, schema, answer_store, metadata)
 
     reduced_block = block.copy()
     questions_to_keep = [
@@ -188,7 +188,7 @@ def _get_formatted_total(groups, metadata, answer_store, schema):
     answer_format = {'type': None}
     for group in groups:
         for block in group['blocks']:
-            question = get_question_to_display(block, metadata, answer_store, schema)
+            question = choose_question_to_display(block, schema, metadata, answer_store)
             for answer in question['answers']:
                 if not answer_format['type']:
                     answer_format = {
