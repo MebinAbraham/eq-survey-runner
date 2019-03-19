@@ -22,7 +22,7 @@ from app.helpers.path_finder_helper import path_finder, full_routing_path_requir
 from app.helpers.schema_helpers import with_schema
 from app.helpers.session_helpers import with_answer_store, with_metadata, with_collection_metadata
 from app.helpers.template_helper import (with_session_timeout, with_metadata_context, with_analytics,
-                                         with_legal_basis, render_template)
+                                         with_legal_basis, render_template, safe_content)
 from app.keys import KEY_PURPOSE_SUBMISSION
 from app.questionnaire.answer_store_updater import AnswerStoreUpdater
 from app.questionnaire.location import Location
@@ -34,7 +34,6 @@ from app.submitter.converter import convert_answers
 from app.submitter.submission_failed import SubmissionFailedException
 from app.templating.metadata_context import build_metadata_context_for_survey_completed
 from app.templating.summary_context import build_summary_rendering_context
-from app.templating.template_renderer import TemplateRenderer
 from app.templating.utils import get_question_title
 from app.templating.view_context import build_view_context
 from app.utilities.schema import load_schema_from_session_data
@@ -182,7 +181,7 @@ def get_thank_you(schema):
                                      metadata=metadata_context,
                                      analytics_ua_id=current_app.config['EQ_UA_ID'],
                                      survey_id=schema.json['survey_id'],
-                                     survey_title=TemplateRenderer.safe_content(schema.json['title']),
+                                     survey_title=safe_content(schema.json['title']),
                                      is_view_submitted_response_enabled=is_view_submitted_response_enabled(schema.json),
                                      view_submission_url=view_submission_url,
                                      account_service_url=cookie_session.get('account_service_url'),
@@ -254,7 +253,7 @@ def get_view_submission(schema):  # pylint: too-many-locals
                                          metadata=metadata_context,
                                          analytics_ua_id=current_app.config['EQ_UA_ID'],
                                          survey_id=schema.json['survey_id'],
-                                         survey_title=TemplateRenderer.safe_content(schema.json['title']),
+                                         survey_title=safe_content(schema.json['title']),
                                          account_service_url=cookie_session.get('account_service_url'),
                                          account_service_log_out_url=cookie_session.get('account_service_log_out_url'),
                                          content=context)
@@ -451,7 +450,7 @@ def get_page_title_for_location(schema, current_location, metadata, answer_store
     else:
         page_title = schema.json['title']
 
-    return TemplateRenderer.safe_content(page_title)
+    return safe_content(page_title)
 
 
 def _build_template(current_location, context, template, schema, answer_store, metadata):
