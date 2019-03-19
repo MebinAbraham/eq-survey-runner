@@ -61,7 +61,7 @@
                                     "second_date": {
                                         "source": "answers",
                                         "identifier": ["period-to"]
-                                    },
+                                    }
                                 }
                             }]
                         }]

@@ -40,15 +40,13 @@
                         "placeholders": [{
                             "placeholder": "date",
                             "transforms": [{
-                                'transform': 'format_date',
-                                'arguments': {
-                                    'date_to_format': {
-                                        'source': 'metadata',
-                                        'identifier': ['return_by']
+                                "transform": "format_date",
+                                "arguments": {
+                                    "date_to_format": {
+                                        "source": "metadata",
+                                        "identifier": ["return_by"]
                                     },
-                                    'date_format': {
-                                        "value": 'd MMMM YYYY'
-                                    }
+                                    "date_format": "d MMMM YYYY"
                                 }
                             }]
                         }]
@@ -81,15 +79,13 @@
                     "placeholders": [{
                         "placeholder": "date",
                         "transforms": [{
-                            'transform': 'format_date',
-                            'arguments': {
-                                'date_to_format': {
-                                    'source': 'metadata',
-                                    'identifier': ['return_by']
+                            "transform": "format_date",
+                            "arguments": {
+                                "date_to_format": {
+                                    "source": "metadata",
+                                    "identifier": ["return_by"]
                                 },
-                                'date_format': {
-                                    "value": 'd MMMM YYYY'
-                                }
+                                "date_format": "d MMMM YYYY"
                             }
                         }]
                     }]
@@ -108,15 +104,13 @@
                     "placeholders": [{
                         "placeholder": "date",
                         "transforms": [{
-                            'transform': 'format_date',
-                            'arguments': {
-                                'date_to_format': {
-                                    'source': 'metadata',
-                                    'identifier': ['return_by']
+                            "transform": "format_date",
+                            "arguments": {
+                                "date_to_format": {
+                                    "source": "metadata",
+                                    "identifier": ["return_by"]
                                 },
-                                'date_format': {
-                                    "value": 'd MMMM YYYY'
-                                }
+                                "date_format": "d MMMM YYYY"
                             }
                         }]
                     }]

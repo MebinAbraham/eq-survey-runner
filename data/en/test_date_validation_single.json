@@ -55,15 +55,13 @@
                                 "placeholders": [{
                                     "placeholder": "date",
                                     "transforms": [{
-                                        'transform': 'format_date',
-                                        'arguments': {
-                                            'date_to_format': {
-                                                'source': 'metadata',
-                                                'identifier': ['ref_p_start_date']
+                                        "transform": "format_date",
+                                        "arguments": {
+                                            "date_to_format": {
+                                                "source": "metadata",
+                                                "identifier": ["ref_p_start_date"]
                                             },
-                                            'date_format': {
-                                                "value": 'd MMMM YYYY'
-                                            }
+                                            "date_format": "d MMMM YYYY"
                                         }
                                     }]
                                 }]
@@ -76,20 +74,18 @@
                                 "placeholders": [{
                                     "placeholder": "date",
                                     "transforms": [{
-                                        'transform': 'format_date',
-                                        'arguments': {
-                                            'date_to_format': {
-                                                'source': 'answers',
-                                                'identifier': ['date']
+                                        "transform": "format_date",
+                                        "arguments": {
+                                            "date_to_format": {
+                                                "source": "answers",
+                                                "identifier": ["date"]
                                             },
-                                            'date_format': {
-                                                "value": 'd MMMM YYYY'
-                                            }
+                                            "date_format": "d MMMM YYYY"
                                         }
                                     }]
                                 }]
                             }
-                        }, ]
+                        }]
                     },
                     "answers": [{
                         "id": "date-range-from",

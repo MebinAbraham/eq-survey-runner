@@ -148,8 +148,7 @@
                                         "transform": "concatenate_list",
                                         "arguments": {
                                             "list_to_concatenate": {
-                                                "source": "previous_transform",
-                                                "identifier": "remove_empty"
+                                                "source": "previous_transform"
                                             },
                                             "delimiter": ", "
                                         }

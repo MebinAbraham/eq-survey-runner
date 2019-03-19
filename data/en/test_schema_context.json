@@ -48,7 +48,7 @@
                     "id": "preview",
                     "title": "",
                     "content": [{
-                        "title": {
+                        "description": {
                             "text": "period_str: {period_str}",
                             "placeholders": [{
                                 "placeholder": "period_str",
@@ -59,7 +59,7 @@
                             }]
                         }
                     }, {
-                        "title": {
+                        "description": {
                             "text": "ru_name: {ru_name}",
                             "placeholders": [{
                                 "placeholder": "ru_name",
@@ -70,7 +70,7 @@
                             }]
                         }
                     }, {
-                        "title": {
+                        "description": {
                             "text": "trad_as: {trad_as}",
                             "placeholders": [{
                                 "placeholder": "trad_as",
@@ -81,7 +81,7 @@
                             }]
                         }
                     }, {
-                        "title": {
+                        "description": {
                             "text": "ref_p_start_date: {ref_p_start_date}",
                             "placeholders": [{
                                 "placeholder": "ref_p_start_date",
@@ -92,7 +92,7 @@
                             }]
                         }
                     }, {
-                        "title": {
+                        "description": {
                             "text": "ref_p_end_date: {ref_p_end_date}",
                             "placeholders": [{
                                 "placeholder": "ref_p_end_date",
@@ -103,7 +103,7 @@
                             }]
                         }
                     }, {
-                        "title": {
+                        "description": {
                             "text": "employment_date: {employment_date}",
                             "placeholders": [{
                                 "placeholder": "employment_date",
@@ -114,7 +114,7 @@
                             }]
                         }
                     }, {
-                        "title": {
+                        "description": {
                             "text": "return_by: {return_by}",
                             "placeholders": [{
                                 "placeholder": "return_by",
@@ -125,7 +125,7 @@
                             }]
                         }
                     }, {
-                        "title": {
+                        "description": {
                             "text": "region_code: {region_code}",
                             "placeholders": [{
                                 "placeholder": "region_code",
