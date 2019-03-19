@@ -70,8 +70,8 @@
                         "questions": [{
                             "answers": [{
                                     "id": "test-range",
-                                    "description": "",
-                                    "label": {
+                                    "label": "",
+                                    "description": {
                                         "text": "Range Test ({minimum} to {maximum})",
                                         "placeholders": [{
                                                 "placeholder": "minimum",
@@ -115,8 +115,8 @@
                                 },
                                 {
                                     "id": "test-range-exclusive",
-                                    "description": "",
-                                    "label": {
+                                    "label": "",
+                                    "description": {
                                         "text": "Range Exclusive Test ({minimum} to {maximum} Exclusive)",
                                         "placeholders": [{
                                                 "placeholder": "minimum",
@@ -214,8 +214,8 @@
                                 },
                                 {
                                     "id": "test-decimal",
-                                    "description": "",
-                                    "label": {
+                                    "label": "",
+                                    "description": {
                                         "text": "Range Exclusive Test ({minimum} to {maximum} Exclusive)",
                                         "placeholders": [{
                                                 "placeholder": "minimum",
