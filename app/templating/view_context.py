@@ -21,8 +21,7 @@ def build_view_context(block_type, metadata, schema, answer_store, schema_contex
         return build_view_context_for_question(metadata, schema, answer_store, rendered_block, form)
 
     if block_type in ('Introduction', 'Interstitial', 'Confirmation'):
-        ctx = build_view_context_for_non_question(rendered_block)
-        return ctx
+        return build_view_context_for_non_question(rendered_block)
 
 
 def build_view_context_for_final_summary(metadata, schema, answer_store, schema_context, block_type, rendered_block):
