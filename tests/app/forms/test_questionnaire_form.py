@@ -25,8 +25,8 @@ class TestQuestionnaireForm(AppContextTestCase):  # noqa: C901  pylint: disable=
 
             form = generate_form(schema, block_json, AnswerStore(), metadata=None)
 
-            for answer in schema.get_answers_for_block('name-block'):
-                self.assertTrue(hasattr(form, answer['id']))
+            for answer_id in schema.get_answer_ids_for_block('name-block'):
+                self.assertTrue(hasattr(form, answer_id))
 
     def test_form_date_range_populates_data(self):
         with self.app_request_context():

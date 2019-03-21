@@ -18,10 +18,9 @@ def convert_answers_to_payload_0_0_1(answer_store, schema, routing_path):
     for location in routing_path:
         answer_ids = schema.get_answer_ids_for_block(location.block_id)
         answers_in_block = answer_store.filter(answer_ids)
-        answer_schema_list = schema.get_answers_by_id_for_block(location.block_id)
 
         for answer in answers_in_block:
-            answer_schema = answer_schema_list[answer['answer_id']]
+            answer_schema = schema.get_answer(answer['answer_id'])
 
             value = answer['value']
 

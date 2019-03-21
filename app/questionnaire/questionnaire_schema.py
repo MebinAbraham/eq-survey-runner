@@ -70,7 +70,6 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         return self.get_group(block['parent_id'])
 
     def get_all_questions_for_block_id(self, block_id):
-        """ Get all questions that could possibly be displayed for a block """
         block = self.get_block(block_id)
         return QuestionnaireSchema.get_all_questions_for_block(block)
 
@@ -92,10 +91,20 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         return {}
 
     def get_answer_ids_for_block(self, block_id):
-        return list(self.get_answers_by_id_for_block(block_id).keys())
+        block = self.get_block(block_id)
+        answer_ids = set()
 
-    def get_answers_for_block(self, block_id):
-        return list(self.get_answers_by_id_for_block(block_id).values())
+        if block:
+            questions = self.get_all_questions_for_block_id(block_id)
+
+            for question in questions:
+                for answer in question.get('answers', []):
+                    answer_ids.add(answer['id'])
+                    for option in answer.get('options', []):
+                        if 'detail_answer' in option:
+                            answer_ids.add(option['detail_answer']['id'])
+
+        return answer_ids
 
     def get_summary_and_confirmation_blocks(self):
         return [
