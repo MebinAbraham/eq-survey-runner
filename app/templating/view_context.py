@@ -169,15 +169,9 @@ def _remove_unwanted_questions_answers(block, answers_in_block, answer_ids_to_ke
         answer['parent_id'] for answer in answers_in_block.values() if answer['id'] in answer_ids_to_keep
     ]
 
-    questions = []
-
     if block_question['id'] in questions_to_keep:
         answers_to_keep = [answer for answer in block_question['answers'] if answer['id'] in answer_ids_to_keep]
-
         block_question['answers'] = answers_to_keep
-        questions.append(block_question)
-
-    reduced_block['questions'] = questions
 
     return reduced_block
 
