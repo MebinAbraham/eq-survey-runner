@@ -58,7 +58,6 @@
                             "id": "proxy-block",
                             "question": {
                                 "id": "proxy-question",
-                                "title": "Are you <em>{{ [answers['first-name'][group_instance], answers['middle-names'][group_instance], answers['last-name'][group_instance]] | format_household_name }}<em>?",
                                 "title": {
                                     "text": "Are you <em>{person_name}</em>?",
                                     "placeholders": [{
