@@ -9,7 +9,7 @@ fi
 
 PROJECT_ID=$1
 SUBMISSION_BUCKET_NAME=$2
-IMAGE_TAG="${3:-v3.0.0}"
+IMAGE_TAG="${3:-latest}"
 
 kubectl create secret generic keys \
     --from-file=keys.yml=docker-keys.yml \
