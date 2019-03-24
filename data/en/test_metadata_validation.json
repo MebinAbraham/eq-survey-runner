@@ -20,7 +20,7 @@
         {
             "name": "ru_name",
             "validator": "string"
-        },        {
+        }, {
             "name": "flag",
             "validator": "boolean"
         },

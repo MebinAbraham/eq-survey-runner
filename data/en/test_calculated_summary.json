@@ -107,20 +107,19 @@
                     "title": "Third Number Block Title",
                     "id": "third-and-a-half-number-block",
                     "description": "",
-                    "question":
-                        {
-                            "id": "third-and-a-half-number-question-unit-total",
-                            "title": "Third Number Question Title Unit Total",
-                            "type": "General",
-                            "answers": [{
-                                "id": "third-and-a-half-number-answer-unit-total",
-                                "label": "Third answer label in unit total",
-                                "mandatory": true,
-                                "type": "Unit",
-                                "unit_length": "short",
-                                "unit": "length-centimeter"
-                            }]
-                        }
+                    "question": {
+                        "id": "third-and-a-half-number-question-unit-total",
+                        "title": "Third Number Question Title Unit Total",
+                        "type": "General",
+                        "answers": [{
+                            "id": "third-and-a-half-number-answer-unit-total",
+                            "label": "Third answer label in unit total",
+                            "mandatory": true,
+                            "type": "Unit",
+                            "unit_length": "short",
+                            "unit": "length-centimeter"
+                        }]
+                    }
                 },
                 {
                     "type": "Question",
@@ -170,7 +169,7 @@
                             "decimal_places": 2
                         }]
                     }
-        },
+                },
                 {
                     "skip_conditions": [{
                         "when": [{
@@ -183,20 +182,19 @@
                     "title": "Fourth Number Block Title",
                     "id": "fourth-and-a-half-number-block",
                     "description": "",
-                    "question":
-                        {
-                            "id": "fourth-and-a-half-number-question-also-in-total",
-                            "title": "Fourth Number Additional Question Title",
-                            "type": "General",
-                            "answers": [{
-                                "id": "fourth-and-a-half-number-answer-also-in-total",
-                                "label": "Fourth answer label also in total (optional)",
-                                "mandatory": false,
-                                "type": "Currency",
-                                "currency": "GBP",
-                                "decimal_places": 2
-                            }]
-                        }
+                    "question": {
+                        "id": "fourth-and-a-half-number-question-also-in-total",
+                        "title": "Fourth Number Additional Question Title",
+                        "type": "General",
+                        "answers": [{
+                            "id": "fourth-and-a-half-number-answer-also-in-total",
+                            "label": "Fourth answer label also in total (optional)",
+                            "mandatory": false,
+                            "type": "Currency",
+                            "currency": "GBP",
+                            "decimal_places": 2
+                        }]
+                    }
                 },
                 {
                     "type": "Question",

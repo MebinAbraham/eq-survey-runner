@@ -1,4 +1,3 @@
-
 {
     "mime_type": "application/json/ons/eq",
     "schema_version": "0.0.1",
@@ -45,8 +44,7 @@
                     "type": "Interstitial",
                     "id": "age-display-block",
                     "title": "variants only",
-                    "content_variants": [
-                        {
+                    "content_variants": [{
                             "content": [{
                                 "title": "You are 16 or older"
                             }],

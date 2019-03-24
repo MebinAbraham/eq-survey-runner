@@ -67,26 +67,22 @@
                         "id": "dob-question",
                         "title": {
                             "text": "What is the date of birth for {person_name}?",
-                            "placeholders": [
-                                {
-                                    "placeholder": "person_name",
-                                    "transforms": [
-                                        {
-                                            "transform": "concatenate_list",
-                                            "arguments": {
-                                                "list_to_concatenate": {
-                                                    "source": "answers",
-                                                    "identifier": [
-                                                        "first-name",
-                                                        "last-name"
-                                                    ]
-                                                },
-                                                "delimiter": " "
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
+                            "placeholders": [{
+                                "placeholder": "person_name",
+                                "transforms": [{
+                                    "transform": "concatenate_list",
+                                    "arguments": {
+                                        "list_to_concatenate": {
+                                            "source": "answers",
+                                            "identifier": [
+                                                "first-name",
+                                                "last-name"
+                                            ]
+                                        },
+                                        "delimiter": " "
+                                    }
+                                }]
+                            }]
                         },
                         "type": "General",
                         "answers": [{
