@@ -23,7 +23,8 @@ class TestAnswerStoreUpdater(unittest.TestCase):
             completed_blocks=[],
             answer_store=self.answer_store
         )
-        self.answer_store_updater = AnswerStoreUpdater(self.location, self.schema, self.questionnaire_store)
+        self.metadata = MagicMock()
+        self.answer_store_updater = AnswerStoreUpdater(self.location, self.schema, self.questionnaire_store, self.metadata)
 
     def test_save_answers_with_answer_data(self):
         self.location.block_id = 'household-composition'
@@ -75,10 +76,10 @@ class TestAnswerStoreUpdater(unittest.TestCase):
 
     def test_save_answers_data_with_default_value(self):
         answer_id = 'answer'
-        default_value = 0
+        default_value = {}
 
         self.schema.get_answer_ids_for_block.return_value = [answer_id]
-        self.schema.get_answer.return_value = {'default': default_value}
+        self.schema.get_answer_with_context.return_value = {'default': default_value}
 
         # No answer given so will use schema defined default
         form_data = {

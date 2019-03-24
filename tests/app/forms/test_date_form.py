@@ -20,7 +20,7 @@ class TestDateForm(AppContextTestCase):
         error_messages = schema.error_messages
 
         with self.app_request_context('/'):
-            form = get_date_form(AnswerStore(), {}, schema.get_answer('single-date-answer'), error_messages=error_messages)
+            form = get_date_form(AnswerStore(), {}, schema.get_answers('single-date-answer')[0], error_messages=error_messages)
 
         self.assertTrue(hasattr(form, 'day'))
         self.assertTrue(hasattr(form, 'month'))
@@ -32,7 +32,7 @@ class TestDateForm(AppContextTestCase):
 
 
         with self.app_request_context('/'):
-            form = get_month_year_form(schema.get_answer('month-year-answer'), {}, {}, error_messages=error_messages)
+            form = get_month_year_form(schema.get_answers('month-year-answer')[0], {}, {}, error_messages=error_messages)
 
         self.assertFalse(hasattr(form, 'day'))
         self.assertTrue(hasattr(form, 'month'))
@@ -42,7 +42,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        form = get_year_form(schema.get_answer('year-date-answer'), {}, {}, error_messages=error_messages, label=None, guidance=None)
+        form = get_year_form(schema.get_answers('year-date-answer')[0], {}, {}, error_messages=error_messages, label=None, guidance=None)
 
         self.assertFalse(hasattr(form, 'day'))
         self.assertFalse(hasattr(form, 'month'))
@@ -54,7 +54,7 @@ class TestDateForm(AppContextTestCase):
 
 
         with self.app_request_context('/'):
-            form = get_date_form(AnswerStore(), {}, schema.get_answer('single-date-answer'), error_messages=error_messages)
+            form = get_date_form(AnswerStore(), {}, schema.get_answers('single-date-answer')[0], error_messages=error_messages)
 
         self.assertIsNone(form().data)
 
@@ -63,7 +63,7 @@ class TestDateForm(AppContextTestCase):
         error_messages = schema.error_messages
 
         with self.app_request_context('/'):
-            form = get_month_year_form(schema.get_answer('month-year-answer'), {}, {}, error_messages=error_messages)
+            form = get_month_year_form(schema.get_answers('month-year-answer')[0], {}, {}, error_messages=error_messages)
 
         self.assertIsNone(form().data)
 
@@ -71,7 +71,7 @@ class TestDateForm(AppContextTestCase):
         schema = load_schema_from_params('test', 'dates')
         error_messages = schema.error_messages
 
-        form = get_year_form(schema.get_answer('year-date-answer'), {}, {}, error_messages=error_messages, label=None, guidance=None)
+        form = get_year_form(schema.get_answers('year-date-answer')[0], {}, {}, error_messages=error_messages, label=None, guidance=None)
 
         self.assertIsNone(form().data)
 
@@ -83,7 +83,7 @@ class TestDateForm(AppContextTestCase):
 
         with self.app_request_context('/'):
             class TestForm(Form):
-                field = DateField(AnswerStore(), {}, schema.get_answer('single-date-answer'), error_messages)
+                field = DateField(AnswerStore(), {}, schema.get_answers('single-date-answer')[0], error_messages)
 
             test_form = TestForm(data=data)
 
@@ -97,7 +97,7 @@ class TestDateForm(AppContextTestCase):
 
         with self.app_request_context('/'):
             class TestForm(Form):
-                field = MonthYearField(schema.get_answer('month-year-answer'), {}, {}, error_messages)
+                field = MonthYearField(schema.get_answers('month-year-answer')[0], {}, {}, error_messages)
 
             test_form = TestForm(data=data)
 
@@ -110,7 +110,7 @@ class TestDateForm(AppContextTestCase):
         data = {'field': '2000'}
 
         class TestForm(Form):
-            field = YearField(schema.get_answer('year-date-answer'), {}, {}, error_messages)
+            field = YearField(schema.get_answers('year-date-answer')[0], {}, {}, error_messages)
 
         test_form = TestForm(data=data)
 
@@ -122,7 +122,7 @@ class TestDateForm(AppContextTestCase):
         test_metadata = {'ref_p_start_date': '2017-02-20'}
 
         with self.app_request_context('/'):
-            form = get_date_form(AnswerStore(), test_metadata, schema.get_answer('date-range-from'), error_messages=error_messages)
+            form = get_date_form(AnswerStore(), test_metadata, schema.get_answers('date-range-from')[0], error_messages=error_messages)
 
         self.assertTrue(hasattr(form, 'day'))
         self.assertTrue(hasattr(form, 'month'))
@@ -149,7 +149,7 @@ class TestDateForm(AppContextTestCase):
             }
         }
 
-        with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_answers_by_id_for_block',
+        with patch('app.questionnaire.questionnaire_schema.QuestionnaireSchema.get_answers',
                    return_value=[answer]), self.app_request_context('/'):
             form = get_date_form(AnswerStore(), {}, answer, error_messages=error_messages)
 

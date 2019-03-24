@@ -128,6 +128,56 @@ class TestQuestionnaireSchema(AppContextTestCase):
 
         self.assertEqual(group['title'], 'Group 1')
 
+    def test_get_questions_with_variants(self):
+        survey_json = {
+            'sections': [{
+                'id': 'section1',
+                'groups': [{
+                    'id': 'group1',
+                    'title': 'Group 1',
+                    'blocks': [
+                        {
+                            'id': 'block1',
+                            'type': 'Question',
+                            'title': 'Block 1',
+                            'question_variants': [{
+                                'when': [{}],
+                                'question': {
+                                    'id': 'question1',
+                                    'title': 'Question 1',
+                                    'answers': [
+                                        {
+                                            'id': 'answer1',
+                                            'label': 'Answer 1'
+                                        }
+                                    ]
+                                }
+                            }, {
+                                'when': [{}],
+                                'question': {
+                                    'id': 'question1',
+                                    'title': 'Another Question 1',
+                                    'answers': [
+                                        {
+                                            'id': 'answer1',
+                                            'label': 'Answer 1'
+                                        }
+                                    ]
+                                }
+                            }]
+                        }
+                    ]
+                }]
+            }]
+        }
+
+        schema = QuestionnaireSchema(survey_json)
+        questions = schema.get_questions('question1')
+
+        self.assertEqual(len(questions), 2)
+        self.assertEqual(questions[0]['title'], 'Question 1')
+        self.assertEqual(questions[1]['title'], 'Another Question 1')
+
     def test_get_questions(self):
         survey_json = {
             'sections': [{
@@ -141,32 +191,14 @@ class TestQuestionnaireSchema(AppContextTestCase):
                             'type': 'Question',
                             'title': 'Block 1',
                             'question': {
-                                'id': 'question1'
-                            }
-                        }
-                    ]
-                }]
-            }]
-        }
-
-        schema = QuestionnaireSchema(survey_json)
-        self.assertEqual(len(schema.questions), 1)
-
-    def test_get_question(self):
-        survey_json = {
-            'sections': [{
-                'id': 'section1',
-                'groups': [{
-                    'id': 'group1',
-                    'title': 'Group 1',
-                    'blocks': [
-                        {
-                            'id': 'block1',
-                            'type': 'Question',
-                            'title': 'Block 1',
-                            'question': {
                                 'id': 'question1',
-                                'title': 'Question 1'
+                                'title': 'Question 1',
+                                'answers': [
+                                    {
+                                        'id': 'answer1',
+                                        'label': 'Answer 1'
+                                    }
+                                ]
                             }
                         }
                     ]
@@ -175,9 +207,9 @@ class TestQuestionnaireSchema(AppContextTestCase):
         }
 
         schema = QuestionnaireSchema(survey_json)
-        question = schema.get_question('question1')
+        questions = schema.get_questions('question1')
 
-        self.assertEqual(question['title'], 'Question 1')
+        self.assertEqual(questions[0]['title'], 'Question 1')
 
     def test_get_answers(self):
         survey_json = {
@@ -210,7 +242,59 @@ class TestQuestionnaireSchema(AppContextTestCase):
         schema = QuestionnaireSchema(survey_json)
         self.assertEqual(len(schema.answers), 1)
 
-    def test_get_answer(self):
+    def test_get_answers_with_variants(self):
+        survey_json = {
+            'sections': [{
+                'id': 'section1',
+                'groups': [{
+                    'id': 'group1',
+                    'title': 'Group 1',
+                    'blocks': [
+                        {
+                            'id': 'block1',
+                            'type': 'Question',
+                            'title': 'Block 1',
+                            'question_variants': [
+                                {
+                                    'when': [{}],
+                                    'question': {
+                                        'id': 'question1',
+                                        'title': 'Question 1',
+                                        'answers': [
+                                            {
+                                                'id': 'answer1',
+                                                'label': 'Answer 1'
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    'when': [{}],
+                                    'question': {
+                                        'id': 'question1',
+                                        'title': 'Question 1',
+                                        'answers': [
+                                            {
+                                                'id': 'answer1',
+                                                'label': 'Another Answer 1'
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }]
+            }]
+        }
+
+        schema = QuestionnaireSchema(survey_json)
+        answers = schema.get_answers('answer1')
+        self.assertEqual(len(answers), 2)
+        self.assertEqual(answers[0]['label'], 'Answer 1')
+        self.assertEqual(answers[1]['label'], 'Another Answer 1')
+
+    def test_get_answers(self):
         survey_json = {
             'sections': [{
                 'id': 'section1',
@@ -239,9 +323,9 @@ class TestQuestionnaireSchema(AppContextTestCase):
         }
 
         schema = QuestionnaireSchema(survey_json)
-        answer = schema.get_answer('answer1')
-
-        self.assertEqual(answer['label'], 'Answer 1')
+        answers = schema.get_answers('answer1')
+        self.assertEqual(len(answers), 1)
+        self.assertEqual(answers[0]['label'], 'Answer 1')
 
     def test_get_summary_and_confirmation_blocks_returns_only_summary(self):
         survey_json = {

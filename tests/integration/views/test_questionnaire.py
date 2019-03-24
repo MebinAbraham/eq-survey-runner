@@ -26,6 +26,7 @@ class TestQuestionnaire(IntegrationTestCase):
         storage.get_user_data = Mock(return_value=(json.dumps(data), QuestionnaireStore.LATEST_VERSION))
 
         self.question_store = QuestionnaireStore(storage)
+        self.mock_context = {'block': {'question': {'title': 'Testing title'}}}
 
     def tearDown(self):
         self._application_context.pop()
@@ -35,7 +36,7 @@ class TestQuestionnaire(IntegrationTestCase):
         schema = load_schema_from_params('test', 'final_confirmation')
 
         # When
-        page_title = get_page_title_for_location(schema, Location('introduction'), {}, AnswerStore())
+        page_title = get_page_title_for_location(schema, Location('introduction'), {}, AnswerStore(), self.mock_context)
 
         # Then
         self.assertEqual(page_title, 'Final confirmation to submit')
@@ -45,7 +46,7 @@ class TestQuestionnaire(IntegrationTestCase):
         schema = load_schema_from_params('test', 'interstitial_page')
 
         # When
-        page_title = get_page_title_for_location(schema, Location('breakfast-interstitial'), {}, AnswerStore())
+        page_title = get_page_title_for_location(schema, Location('breakfast-interstitial'), {}, AnswerStore(), self.mock_context)
 
         # Then
         self.assertEqual(page_title, 'Favourite food - Interstitial Pages')
@@ -55,10 +56,10 @@ class TestQuestionnaire(IntegrationTestCase):
         schema = load_schema_from_params('test', 'final_confirmation')
 
         # When
-        page_title = get_page_title_for_location(schema, Location('breakfast'), {}, AnswerStore())
+        page_title = get_page_title_for_location(schema, Location('breakfast'), {}, AnswerStore(), self.mock_context)
 
         # Then
-        self.assertEqual(page_title, 'What is your favourite breakfast food - Final confirmation to submit')
+        self.assertEqual(page_title, 'Testing title - Final confirmation to submit')
 
     @pytest.mark.xfail
     def test_given_jinja_variable_question_title_when_get_page_title_then_replace_with_ellipsis(self):

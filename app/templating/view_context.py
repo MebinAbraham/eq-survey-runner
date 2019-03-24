@@ -2,7 +2,7 @@ from app.helpers.form_helper import get_form_for_location
 from app.jinja_filters import get_formatted_currency, format_number, format_unit, format_percentage
 from app.templating.summary_context import build_summary_rendering_context
 from app.templating.template_renderer import renderer
-from app.helpers.schema_helpers import choose_question_to_display
+from app.questionnaire.schema_utils import choose_question_to_display, get_answer_ids_in_block
 
 
 def build_view_context(block_type, metadata, schema, answer_store, schema_context, rendered_block, current_location, form):
@@ -90,11 +90,7 @@ def build_view_context_for_non_question(rendered_block):
 
 
 def build_view_context_for_question(metadata, schema, answer_store, rendered_block, form):  # noqa: C901, E501  pylint: disable=too-complex,line-too-long,too-many-locals,too-many-branches
-    question = choose_question_to_display(rendered_block, schema, metadata, answer_store)
-    rendered_block.pop('question_variants', None)
-    rendered_block.pop('question', None)
-
-    rendered_block['question'] = question
+    question = rendered_block['question']
 
     context = {
         'block': rendered_block,
@@ -131,20 +127,15 @@ def build_view_context_for_question(metadata, schema, answer_store, rendered_blo
 
 
 def _build_calculated_summary_section_list(schema, rendered_block, current_location, answer_store, metadata):
-    """
-    Problem: Currently getting a list of answer_ids and then removing any other questions.
-    Input: Schema, block with answers to calculate.
-    Output: blocks containing only answers to calculate
-    """
+    """Build up the list of blocks only including blocks / questions / answers which are relevant to the summary"""
     group = schema.get_group_by_block_id(current_location.block_id)
     blocks = []
+    answers_to_calculate = rendered_block['calculation']['answers_to_calculate']
     for block in schema.blocks:
-        answers_in_block = schema.get_answers_by_id_for_block(block['id'])
-        answers_to_calculate = rendered_block['calculation']['answers_to_calculate']
-
-        answer_matches = set(answers_in_block.keys()) & set(answers_to_calculate)
-        if answer_matches:
-            blocks.append(_remove_unwanted_questions_answers(block, answers_in_block, answer_matches, answer_store, metadata, schema))
+        if block['type'] == 'Question':
+            transformed_block = _remove_unwanted_questions_answers(block, answers_to_calculate, answer_store, metadata, schema)
+            if set(get_answer_ids_in_block(transformed_block)) & set(answers_to_calculate):
+                blocks.append(transformed_block)
 
     section = {
         'groups': [
@@ -158,16 +149,19 @@ def _build_calculated_summary_section_list(schema, rendered_block, current_locat
     return [section]
 
 
-def _remove_unwanted_questions_answers(block, answers_in_block, answer_ids_to_keep, answer_store, metadata, schema):
+def _remove_unwanted_questions_answers(block, answer_ids_to_keep, answer_store, metadata, schema):
     """
     Evaluates questions in a block and removes any questions not containing a relevant answer
     """
     block_question = choose_question_to_display(block, schema, answer_store, metadata)
 
     reduced_block = block.copy()
-    questions_to_keep = [
-        answer['parent_id'] for answer in answers_in_block.values() if answer['id'] in answer_ids_to_keep
-    ]
+
+    matching_answers = []
+    for answer_id in answer_ids_to_keep:
+        matching_answers.extend(schema.get_answers(answer_id))
+
+    questions_to_keep = [answer['parent_id'] for answer in matching_answers]
 
     if block_question['id'] in questions_to_keep:
         answers_to_keep = [answer for answer in block_question['answers'] if answer['id'] in answer_ids_to_keep]

@@ -61,7 +61,8 @@ class TestQuestionnaireQuestionVariants(IntegrationTestCase):
 
         self.post({'age-answer': '49'})
 
-        self.assertInBody('<em>Linus Torvalds</em> is over 16?')
+        expected_answer = '<em>Linus Torvalds</em> is over 16?' if proxy else 'You are over 16?'
+        self.assertInBody(expected_answer)
 
         self.post({'age-confirm-answer': 'Yes'})
 

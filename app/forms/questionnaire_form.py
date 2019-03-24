@@ -108,7 +108,7 @@ class QuestionnaireForm(FlaskForm):
         if 'value' in calculation:
             return calculation['value'], question.get('currency')
 
-        target_answer = self.schema.get_answer(calculation['answer_id'])
+        target_answer = self.schema.get_answer_with_context(calculation['answer_id'], self.metadata, self.answer_store)
         return self.answer_store.filter(answer_ids=[target_answer['id']]).values()[0], target_answer.get('currency')
 
     def validate_date_range_with_period_limits_and_single_date_limits(self, question_id, period_limits, period_range):

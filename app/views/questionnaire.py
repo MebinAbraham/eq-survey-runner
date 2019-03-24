@@ -19,7 +19,7 @@ from app.globals import (get_answer_store, get_completed_blocks, get_metadata, g
 from app.globals import get_session_store
 from app.helpers.form_helper import post_form_for_block
 from app.helpers.path_finder_helper import path_finder, full_routing_path_required
-from app.helpers.schema_helpers import with_schema, choose_question_to_display
+from app.helpers.schema_helpers import with_schema
 from app.helpers.session_helpers import with_answer_store, with_metadata, with_collection_metadata
 from app.helpers.template_helper import (with_session_timeout, with_metadata_context, with_analytics,
                                          with_legal_basis, render_template)
@@ -30,6 +30,7 @@ from app.questionnaire.path_finder import PathFinder
 from app.questionnaire.router import Router
 from app.questionnaire.rules import get_answer_ids_on_routing_path
 from app.questionnaire.placeholder_renderer import PlaceholderRenderer
+from app.questionnaire.schema_utils import transform_variants
 from app.storage.storage_encryption import StorageEncryption
 from app.submitter.converter import convert_answers
 from app.submitter.submission_failed import SubmissionFailedException
@@ -111,7 +112,9 @@ def get_block(routing_path, schema, metadata, answer_store, block_id):
     placeholder_renderer = PlaceholderRenderer(block, answer_store=answer_store, metadata=metadata)
     replaced_block = placeholder_renderer.render()
 
-    context = _get_context(routing_path, replaced_block, current_location, schema)
+    transformed_block = transform_variants(replaced_block, schema, metadata, answer_store)
+
+    context = _get_context(routing_path, transformed_block, current_location, schema)
 
     return _render_page(block['type'], context, current_location, schema, answer_store, metadata)
 
@@ -137,9 +140,11 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
     placeholder_renderer = PlaceholderRenderer(block, answer_store=answer_store, metadata=metadata)
     replaced_block = placeholder_renderer.render()
 
+    new_block = transform_variants(replaced_block, schema, metadata, answer_store)
+
     schema_context = _get_schema_context(routing_path, metadata, collection_metadata, answer_store, schema)
 
-    rendered_block = renderer.render(replaced_block, **schema_context)
+    rendered_block = renderer.render(new_block, **schema_context)
 
     form = _generate_wtf_form(request.form, rendered_block, schema)
 
@@ -152,7 +157,7 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
     if form.validate():
         _set_started_at_metadata_if_required(form, collection_metadata)
         questionnaire_store = get_questionnaire_store(current_user.user_id, current_user.user_ik)
-        answer_store_updater = AnswerStoreUpdater(current_location, schema, questionnaire_store)
+        answer_store_updater = AnswerStoreUpdater(current_location, schema, questionnaire_store, metadata)
         answer_store_updater.save_answers(form)
 
         next_location = path_finder.get_next_location(current_location=current_location)
@@ -405,7 +410,7 @@ def _save_sign_out(routing_path, current_location, form, schema, answer_store, m
     block = schema.get_block(current_location.block_id)
 
     if form.validate():
-        answer_store_updater = AnswerStoreUpdater(current_location, schema, questionnaire_store)
+        answer_store_updater = AnswerStoreUpdater(current_location, schema, questionnaire_store, metadata)
         answer_store_updater.save_answers(form)
 
         questionnaire_store.remove_completed_blocks(location=current_location)
@@ -444,14 +449,13 @@ def _get_schema_context(full_routing_path, metadata, collection_metadata, answer
                                 answer_ids_on_path=answer_ids_on_path)
 
 
-def get_page_title_for_location(schema, current_location, metadata, answer_store):
+def get_page_title_for_location(schema, current_location, metadata, answer_store, context):
     block = schema.get_block(current_location.block_id)
     if block['type'] == 'Interstitial':
         group = schema.get_group(schema.get_group_by_block_id(block['id'])['id'])
         page_title = '{group_title} - {survey_title}'.format(group_title=group['title'], survey_title=schema.json['title'])
     elif block['type'] == 'Question':
-        question = choose_question_to_display(block, schema, metadata, answer_store)
-        question_title = question.get('title')
+        question_title = context['block']['question'].get('title')
         page_title = '{question_title} - {survey_title}'.format(question_title=question_title, survey_title=schema.json['title'])
     else:
         page_title = schema.json['title']
@@ -472,7 +476,7 @@ def _build_template(current_location, context, template, schema, answer_store, m
 @with_legal_basis
 def _render_template(context, current_location, template, previous_url, schema, metadata, answer_store,
                      **kwargs):
-    page_title = get_page_title_for_location(schema, current_location, metadata, answer_store)
+    page_title = get_page_title_for_location(schema, current_location, metadata, answer_store, context)
 
     session_store = get_session_store()
     session_data = session_store.session_data

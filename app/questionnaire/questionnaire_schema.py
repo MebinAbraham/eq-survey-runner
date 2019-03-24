@@ -1,8 +1,10 @@
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 
 from flask_babel import force_locale
 
 from app.validation.error_messages import error_messages
+
+from app.questionnaire.schema_utils import choose_question_to_display
 
 DEFAULT_LANGUAGE_CODE = 'en'
 
@@ -26,10 +28,6 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         return self._blocks_by_id.values()
 
     @property
-    def questions(self):
-        return self._questions_by_id.values()
-
-    @property
     def answers(self):
         return self._answers_by_id.values()
 
@@ -42,11 +40,43 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
     def get_block(self, block_id):
         return self._blocks_by_id.get(block_id)
 
-    def get_question(self, question_id):
+    def get_block_for_answer_id(self, answer_id):
+        answers = self.get_answers(answer_id)
+        # All matching questions / answers must be within the same block
+        questions = self.get_questions(answers[0]['parent_id'])
+        return self.get_block(questions[0]['parent_id'])
+
+    def get_questions(self, question_id):
+        """ Return a list of questions matching some question id
+        This includes all questions inside variants
+        """
         return self._questions_by_id.get(question_id)
 
-    def get_answer(self, answer_id):
+    def get_answers(self, answer_id):
+        """ Return a list of answers matching some answer id
+        This includes all matching answers inside variants
+        """
         return self._answers_by_id.get(answer_id)
+
+    def get_answer_with_context(self, answer_id, metadata, answer_store):
+        """
+        Use context to determine the correct variant and return the appropriate answer
+        """
+        block = self.get_block_for_answer_id(answer_id)
+        question = choose_question_to_display(block, self, metadata, answer_store)
+        for answer in question['answers']:
+            if answer['id'] == answer_id:
+                return answer
+
+    def get_question_with_context(self, question_id, metadata, answer_store):
+        """
+        Use context to determine the correct variant and return the appropriate question
+        """
+        questions = self.get_questions(question_id)
+        block = self.get_block(questions[0]['parent_id'])
+        question = choose_question_to_display(block, self, metadata, answer_store)
+
+        return question
 
     def get_section_by_block_id(self, block_id):
         block = self.get_block(block_id)
@@ -72,23 +102,6 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
     def get_all_questions_for_block_id(self, block_id):
         block = self.get_block(block_id)
         return QuestionnaireSchema.get_all_questions_for_block(block)
-
-    def get_answers_by_id_for_block(self, block_id):
-        block = self.get_block(block_id)
-        if block:
-            answers_by_id = {}
-
-            questions = self.get_all_questions_for_block_id(block_id)
-
-            for question in questions:
-                for answer in question.get('answers', []):
-                    answers_by_id.update({answer['id']: answer})
-                    for option in answer.get('options', []):
-                        if 'detail_answer' in option:
-                            answers_by_id.update({option['detail_answer']['id']: option['detail_answer']})
-            return answers_by_id
-
-        return {}
 
     def get_answer_ids_for_block(self, block_id):
         block = self.get_block(block_id)
@@ -162,18 +175,34 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
         self._groups_by_id = get_nested_schema_objects(self._sections_by_id, 'groups')
         self._blocks_by_id = get_nested_schema_objects(self._groups_by_id, 'blocks')
         self._questions_by_id = self._get_questions_by_id()
-        self._answers_by_id = get_nested_schema_objects(self._questions_by_id, 'answers')
+        self._answers_by_id = self._get_answers_by_id()
         self.error_messages = self._get_error_messages()
 
     def _get_questions_by_id(self):
-        questions_by_id = OrderedDict()
+        questions_by_id = defaultdict(list)
 
         for block in self._blocks_by_id.values():
-            for question in self.get_all_questions_for_block(block):
-                questions_by_id[question['id']] = question
-                questions_by_id[question['id']]['parent_id'] = block['id']
+            questions = self.get_all_questions_for_block(block)
+            for question in questions:
+                question['parent_id'] = block['id']
+                questions_by_id[question['id']].append(question)
 
         return questions_by_id
+
+    def _get_answers_by_id(self):
+        answers_by_id = defaultdict(list)
+
+        for question_set in self._questions_by_id.values():
+            for question in question_set:
+                for answer in question['answers']:
+                    answer['parent_id'] = question['id']
+                    answers_by_id[answer['id']].append(answer)
+                    for option in answer.get('options', []):
+                        if 'detail_answer' in option:
+                            option['detail_answer']['parent_id'] = question['id']
+                            answers_by_id[option['detail_answer']['id']].append(option['detail_answer'])
+
+        return answers_by_id
 
     def _get_sections_by_id(self):
         return OrderedDict(
@@ -209,10 +238,5 @@ def get_nested_schema_objects(parent_object, list_key):
             # patch the ID of the parent onto the object
             child_list_object['parent_id'] = parent_id
             nested_objects[child_list_object['id']] = child_list_object
-
-            for option in child_list_object.get('options', []):
-                if 'detail_answer' in option:
-                    option['detail_answer']['parent_id'] = parent_id
-                    nested_objects[option['detail_answer']['id']] = option['detail_answer']
 
     return nested_objects

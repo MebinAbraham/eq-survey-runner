@@ -2,13 +2,14 @@ from collections import OrderedDict
 from datetime import datetime
 
 
-def convert_answers_to_payload_0_0_1(answer_store, schema, routing_path):
+def convert_answers_to_payload_0_0_1(metadata, answer_store, schema, routing_path):
     """
     Convert answers into the data format below
     'data': {
           '001': '01-01-2016',
           '002': '30-03-2016'
         }
+    :param metadata: questionnaire metadata
     :param answer_store: questionnaire answers
     :param schema: QuestionnaireSchema class with popuated schema json
     :param routing_path: the path followed in the questionnaire
@@ -20,7 +21,7 @@ def convert_answers_to_payload_0_0_1(answer_store, schema, routing_path):
         answers_in_block = answer_store.filter(answer_ids)
 
         for answer in answers_in_block:
-            answer_schema = schema.get_answer(answer['answer_id'])
+            answer_schema = schema.get_answer_with_context(answer['answer_id'], metadata, answer_store)
 
             value = answer['value']
 

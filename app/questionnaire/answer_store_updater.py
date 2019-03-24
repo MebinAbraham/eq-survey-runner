@@ -6,11 +6,12 @@ class AnswerStoreUpdater:
     """Component responsible for any actions that need to happen as a result of updating the answer store
     """
 
-    def __init__(self, current_location, schema, questionnaire_store):
+    def __init__(self, current_location, schema, questionnaire_store, metadata):
         self._current_location = current_location
         self._schema = schema
         self._questionnaire_store = questionnaire_store
         self._answer_store = self._questionnaire_store.answer_store
+        self._metadata = metadata
 
     def save_answers(self, form):
         if isinstance(form, QuestionnaireForm):
@@ -41,7 +42,7 @@ class AnswerStoreUpdater:
 
             # If answer is not answered then check for a schema specified default
             if answer_value is None:
-                answer_value = self._schema.get_answer(answer_id).get('default')
+                answer_value = self._schema.get_answer_with_context(answer_id, self._metadata, self._answer_store).get('default')
 
             if answer_id in survey_answer_ids:
                 if answer_value is not None:

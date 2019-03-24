@@ -40,7 +40,7 @@ class TestConvertPayload001(TestConverter):  # pylint: disable=too-many-public-m
 
             routing_path = [Location(block_id='block-1')]
             answer_object = (
-                convert_answers_to_payload_0_0_1(AnswerStore(user_answer), QuestionnaireSchema(questionnaire),
+                convert_answers_to_payload_0_0_1({}, AnswerStore(user_answer), QuestionnaireSchema(questionnaire),
                                                  routing_path))
             self.assertEqual(answer_object['002'], '2016-03-30')
             self.assertEqual(len(answer_object), 1)
