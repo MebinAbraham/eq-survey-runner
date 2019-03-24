@@ -36,7 +36,7 @@ class TestQuestionnaire(IntegrationTestCase):
         schema = load_schema_from_params('test', 'final_confirmation')
 
         # When
-        page_title = get_page_title_for_location(schema, Location('introduction'), {}, AnswerStore(), self.mock_context)
+        page_title = get_page_title_for_location(schema, Location('introduction'), self.mock_context)
 
         # Then
         self.assertEqual(page_title, 'Final confirmation to submit')
@@ -46,7 +46,7 @@ class TestQuestionnaire(IntegrationTestCase):
         schema = load_schema_from_params('test', 'interstitial_page')
 
         # When
-        page_title = get_page_title_for_location(schema, Location('breakfast-interstitial'), {}, AnswerStore(), self.mock_context)
+        page_title = get_page_title_for_location(schema, Location('breakfast-interstitial'), self.mock_context)
 
         # Then
         self.assertEqual(page_title, 'Favourite food - Interstitial Pages')
@@ -56,7 +56,7 @@ class TestQuestionnaire(IntegrationTestCase):
         schema = load_schema_from_params('test', 'final_confirmation')
 
         # When
-        page_title = get_page_title_for_location(schema, Location('breakfast'), {}, AnswerStore(), self.mock_context)
+        page_title = get_page_title_for_location(schema, Location('breakfast'), self.mock_context)
 
         # Then
         self.assertEqual(page_title, 'Testing title - Final confirmation to submit')
@@ -67,7 +67,7 @@ class TestQuestionnaire(IntegrationTestCase):
         schema = load_schema_from_params('test', 'relationship_household')
 
         # When
-        page_title = get_page_title_for_location(schema, Location('household-relationships'), {}, AnswerStore())
+        page_title = get_page_title_for_location(schema, Location('household-relationships'), self.mock_context)
 
         # Then
         self.assertEqual(page_title, 'How is … related to the people below? - Household relationship')

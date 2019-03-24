@@ -211,7 +211,7 @@ class TestQuestionnaireSchema(AppContextTestCase):
 
         self.assertEqual(questions[0]['title'], 'Question 1')
 
-    def test_get_answers(self):
+    def test_schema_answers(self):
         survey_json = {
             'sections': [{
                 'id': 'section1',
@@ -240,7 +240,9 @@ class TestQuestionnaireSchema(AppContextTestCase):
         }
 
         schema = QuestionnaireSchema(survey_json)
-        self.assertEqual(len(schema.answers), 1)
+        answers = schema.answers
+        self.assertEqual(len(answers), 1)
+
 
     def test_get_answers_with_variants(self):
         survey_json = {
@@ -450,3 +452,74 @@ class TestQuestionnaireSchema(AppContextTestCase):
         self.assertTrue(schema.is_confirmation_group(schema.get_group('group-1')))
         self.assertFalse(schema.is_summary_section(schema.get_section('section-1')))
         self.assertFalse(schema.is_summary_group(schema.get_group('group-1')))
+
+def test_get_all_questions_for_block_question():
+    block = {
+        'id': 'block1',
+        'type': 'Question',
+        'title': 'Block 1',
+        'question': {
+            'id': 'question1',
+            'title': 'Question 1',
+            'answers': [
+                {
+                    'id': 'answer1',
+                    'label': 'Answer 1'
+                }
+            ]
+        }
+    }
+
+    all_questions = QuestionnaireSchema.get_all_questions_for_block(block)
+
+    assert len(all_questions) == 1
+
+    assert all_questions[0]['answers'][0]['id'] == 'answer1'
+
+def test_get_all_questions_for_block_question_variants():
+    block = {
+        'id': 'block1',
+        'type': 'Question',
+        'title': 'Block 1',
+        'question_variants': [
+            {
+                'question': {
+                    'id': 'question1',
+                    'title': 'Question 1',
+                    'answers': [
+                        {
+                            'id': 'answer1',
+                            'label': 'Variant 1'
+                        }
+                    ]
+                },
+                'when': []
+            }, {
+                'question': {
+                    'id': 'question1',
+                    'title': 'Question 1',
+                    'answers': [
+                        {
+                            'id': 'answer1',
+                            'label': 'Variant 2'
+                        }
+                    ]
+                },
+                'when': []
+            }
+        ]
+    }
+
+    all_questions = QuestionnaireSchema.get_all_questions_for_block(block)
+
+    assert len(all_questions) == 2
+
+    assert all_questions[0]['answers'][0]['label'] == 'Variant 1'
+    assert all_questions[1]['answers'][0]['label'] == 'Variant 2'
+
+def test_get_all_questions_for_block_empty():
+    block = {}
+
+    all_questions = QuestionnaireSchema.get_all_questions_for_block(block)
+
+    assert not all_questions

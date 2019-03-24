@@ -68,16 +68,6 @@ class QuestionnaireSchema:  # pylint: disable=too-many-public-methods
             if answer['id'] == answer_id:
                 return answer
 
-    def get_question_with_context(self, question_id, metadata, answer_store):
-        """
-        Use context to determine the correct variant and return the appropriate question
-        """
-        questions = self.get_questions(question_id)
-        block = self.get_block(questions[0]['parent_id'])
-        question = choose_question_to_display(block, self, metadata, answer_store)
-
-        return question
-
     def get_section_by_block_id(self, block_id):
         block = self.get_block(block_id)
         group = self.get_group(block['parent_id'])

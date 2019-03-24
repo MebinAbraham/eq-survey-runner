@@ -18,7 +18,7 @@ def build_view_context(block_type, metadata, schema, answer_store, schema_contex
 
     if block_type in ('Question', 'ConfirmationQuestion'):
         form = form or get_form_for_location(schema, rendered_block, current_location, answer_store, metadata)
-        return build_view_context_for_question(metadata, schema, answer_store, rendered_block, form)
+        return build_view_context_for_question(rendered_block, form)
 
     if block_type in ('Introduction', 'Interstitial', 'Confirmation'):
         return build_view_context_for_non_question(rendered_block)
@@ -89,7 +89,7 @@ def build_view_context_for_non_question(rendered_block):
     }
 
 
-def build_view_context_for_question(metadata, schema, answer_store, rendered_block, form):  # noqa: C901, E501  pylint: disable=too-complex,line-too-long,too-many-locals,too-many-branches
+def build_view_context_for_question(rendered_block, form):  # noqa: C901, E501  pylint: disable=too-complex,line-too-long,too-many-locals,too-many-branches
     question = rendered_block['question']
 
     context = {

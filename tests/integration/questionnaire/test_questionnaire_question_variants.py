@@ -2,6 +2,10 @@ from tests.integration.integration_test_case import IntegrationTestCase
 
 class TestQuestionnaireQuestionVariants(IntegrationTestCase):
 
+    def __init__(self, *args, **kwargs):
+        self.proxy_url = None
+        super().__init__(*args, **kwargs)
+
     def test_non_proxy_answer_shows_non_proxy_title(self):
         self.launchSurvey('test', 'variants_question')
 
@@ -22,6 +26,7 @@ class TestQuestionnaireQuestionVariants(IntegrationTestCase):
         self.complete_currency_section()
 
         self.post(action='save_continue')
+
 
         self.assertInBody('What age is Linus Torvalds')
         self.assertInBody('Are you Linus Torvalds')

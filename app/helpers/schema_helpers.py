@@ -26,4 +26,3 @@ def with_schema(function):
         return function(schema, *args, **kwargs)
 
     return wrapped_function
-

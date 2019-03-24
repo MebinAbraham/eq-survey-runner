@@ -2,14 +2,13 @@ from app.questionnaire.rules import evaluate_when_rules
 
 
 def _choose_variant(block, schema, metadata, answer_store, variants_key, single_key):
-    print('block', block, single_key, variants_key)
     if block.get(single_key):
         return block[single_key]
 
-    for question_variant in block.get(variants_key):
-        when_rules = question_variant.get('when', [])
+    for variant in block.get(variants_key, []):
+        when_rules = variant.get('when', [])
         if evaluate_when_rules(when_rules, schema, metadata, answer_store):
-            return question_variant[single_key]
+            return variant[single_key]
 
 
 def choose_question_to_display(block, schema, metadata, answer_store):
@@ -21,21 +20,23 @@ def choose_content_to_display(block, schema, metadata, answer_store):
 
 
 def transform_variants(block, schema, metadata, answer_store):
+    output_block = block.copy()
+
     if 'question_variants' in block:
         question = choose_question_to_display(block, schema, metadata, answer_store)
-        block.pop('question_variants', None)
-        block.pop('question', None)
+        output_block.pop('question_variants', None)
+        output_block.pop('question', None)
 
-        block['question'] = question
+        output_block['question'] = question
 
     if 'content_variants' in block:
         content = choose_content_to_display(block, schema, metadata, answer_store)
-        block.pop('content_variants', None)
-        block.pop('content', None)
+        output_block.pop('content_variants', None)
+        output_block.pop('content', None)
 
-        block['content'] = content
+        output_block['content'] = content
 
-    return block
+    return output_block
 
 
 def get_answer_ids_in_block(block):
@@ -45,4 +46,3 @@ def get_answer_ids_in_block(block):
         answer_ids.append(answer['id'])
 
     return answer_ids
-

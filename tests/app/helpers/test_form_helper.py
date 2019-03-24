@@ -3,6 +3,7 @@ from tests.app.app_context_test_case import AppContextTestCase
 
 from app.helpers.form_helper import get_form_for_location, post_form_for_block
 from app.questionnaire.location import Location
+from app.questionnaire.questionnaire_schema import QuestionnaireSchema
 from app.utilities.schema import load_schema_from_params
 from app.data_model.answer_store import AnswerStore
 from app.validation.validators import DateRequired, OptionalForm
@@ -46,6 +47,79 @@ class TestFormHelper(AppContextTestCase):
 
             self.assertIsInstance(period_from_field.month.validators[0], OptionalForm)
             self.assertIsInstance(period_to_field.month.validators[0], OptionalForm)
+
+    def test_get_form_and_disable_mandatory_answers_with_variants(self):
+        with self.app_request_context():
+            schema_input = {
+                'sections': [{
+                    'id': 'section1',
+                    'groups': [{
+                        'id': 'group1',
+                        'title': 'Group 1',
+                        'blocks': [
+                            {
+                                'id': 'block1',
+                                'type': 'Question',
+                                'title': 'Block 1',
+                                'question_variants': [
+                                    {
+                                        'when': [{
+                                            'id': 'when-answer',
+                                            'condition': 'equals',
+                                            'value': 'yes'
+                                        }],
+                                        'question': {
+                                            'id': 'question1',
+                                            'title': 'Question 1, Yes',
+                                            'mandatory': True,
+                                            'answers': [
+                                                {
+                                                    'id': 'answer1',
+                                                    'label': 'Answer 1 Variant 1',
+                                                    'type': 'TextField',
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        'when': [{
+                                            'id': 'when-answer',
+                                            'condition': 'not equals',
+                                            'value': 'yes'
+                                        }],
+                                        'question': {
+                                            'id': 'question1',
+                                            'title': 'Question 1, No',
+                                            'mandatory': True,
+                                            'answers': [
+                                                {
+                                                    'id': 'answer1',
+                                                    'label': 'Answer 1 Variant 2',
+                                                    'type': 'TextField',
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }]
+                }]
+            }
+
+            schema = QuestionnaireSchema(schema_input)
+
+            block_json = schema.get_block('block1')
+            location = Location(block_id='block1')
+
+            form = get_form_for_location(schema, block_json, location,
+                                         AnswerStore(), metadata=None, disable_mandatory=True)
+
+            form_answer = getattr(form, 'answer1', None)
+
+            assert form_answer
+
+            assert 'optional' in form_answer.validators[0].field_flags
 
     def test_post_form_for_block_location(self):
         with self.app_request_context():

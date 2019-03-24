@@ -116,7 +116,7 @@ def get_block(routing_path, schema, metadata, answer_store, block_id):
 
     context = _get_context(routing_path, transformed_block, current_location, schema)
 
-    return _render_page(block['type'], context, current_location, schema, answer_store, metadata)
+    return _render_page(block['type'], context, current_location, schema)
 
 
 @questionnaire_blueprint.route('<block_id>', methods=['POST'])
@@ -149,7 +149,7 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
     form = _generate_wtf_form(request.form, rendered_block, schema)
 
     if 'action[save_sign_out]' in request.form:
-        return _save_sign_out(routing_path, current_location, form, schema, answer_store, metadata)
+        return _save_sign_out(routing_path, current_location, form, schema, metadata)
 
     if 'action[sign_out]' in request.form:
         return redirect(url_for('session.get_sign_out'))
@@ -169,7 +169,7 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
 
     context = build_view_context(block['type'], metadata, schema, answer_store, schema_context, rendered_block, current_location, form)
 
-    return _render_page(block['type'], context, current_location, schema, answer_store, metadata)
+    return _render_page(block['type'], context, current_location, schema)
 
 
 @post_submission_blueprint.route('thank-you', methods=['GET'])
@@ -295,17 +295,11 @@ def _set_started_at_metadata_if_required(form, collection_metadata):
         collection_metadata['started_at'] = started_at
 
 
-def _render_page(block_type, context, current_location, schema, answer_store, metadata):
+def _render_page(block_type, context, current_location, schema):
     if request_wants_json():
         return jsonify(context)
 
-    return _build_template(
-        current_location,
-        context,
-        block_type,
-        schema,
-        answer_store,
-        metadata)
+    return _build_template(current_location, context, block_type, schema)
 
 
 def _generate_wtf_form(form, block, schema):
@@ -404,7 +398,7 @@ def _is_submission_viewable(schema, submitted_time):
     return False
 
 
-def _save_sign_out(routing_path, current_location, form, schema, answer_store, metadata):
+def _save_sign_out(routing_path, current_location, form, schema, metadata):
     questionnaire_store = get_questionnaire_store(current_user.user_id, current_user.user_ik)
 
     block = schema.get_block(current_location.block_id)
@@ -421,7 +415,7 @@ def _save_sign_out(routing_path, current_location, form, schema, answer_store, m
         return redirect(url_for('session.get_sign_out'))
 
     context = _get_context(routing_path, block, current_location, schema, form)
-    return _render_page(block['type'], context, current_location, schema, answer_store, metadata)
+    return _render_page(block['type'], context, current_location, schema)
 
 
 def _redirect_to_location(location):
@@ -449,7 +443,7 @@ def _get_schema_context(full_routing_path, metadata, collection_metadata, answer
                                 answer_ids_on_path=answer_ids_on_path)
 
 
-def get_page_title_for_location(schema, current_location, metadata, answer_store, context):
+def get_page_title_for_location(schema, current_location, context):
     block = schema.get_block(current_location.block_id)
     if block['type'] == 'Interstitial':
         group = schema.get_group(schema.get_group_by_block_id(block['id'])['id'])
@@ -463,20 +457,19 @@ def get_page_title_for_location(schema, current_location, metadata, answer_store
     return TemplateRenderer.safe_content(page_title)
 
 
-def _build_template(current_location, context, template, schema, answer_store, metadata):
+def _build_template(current_location, context, template, schema):
     previous_location = path_finder.get_previous_location(current_location)
     previous_url = previous_location.url() if previous_location is not None else None
 
-    return _render_template(context, current_location, template, previous_url, schema, metadata, answer_store)
+    return _render_template(context, current_location, template, previous_url, schema)
 
 
 @with_session_timeout
 @with_metadata_context
 @with_analytics
 @with_legal_basis
-def _render_template(context, current_location, template, previous_url, schema, metadata, answer_store,
-                     **kwargs):
-    page_title = get_page_title_for_location(schema, current_location, metadata, answer_store, context)
+def _render_template(context, current_location, template, previous_url, schema, **kwargs):
+    page_title = get_page_title_for_location(schema, current_location, context)
 
     session_store = get_session_store()
     session_data = session_store.session_data
