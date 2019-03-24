@@ -229,7 +229,7 @@ You need to have Helm installed locally
 To deploy to a cluster you can run the following command
 
 ```
-helm tiller run helm upgrade --install survey-runner ./helm/runner --set projectId=PROJECT_ID --set submissionBucket=BUCKET_NAME 
+helm tiller run helm upgrade --install survey-runner ./helm/runner --set projectId=PROJECT_ID --set submissionBucket=BUCKET_NAME
 ```
 
 ### Internationalisation
@@ -383,7 +383,7 @@ will be collected per-request in the `profiling` directory where it can be exami
 
 will load the file into the interactive browser where it can be sorted and queried as required.
 
-To visualise the profile, `snakeviz` can be used. This provides a nice interface with an 'icicle' graph:
+To visualise the profile, `snakeviz` can be used. This provides a nice interface with an icicle graph:
 
 ```
 # First combine all the profiles in the 'profiling' directory.
