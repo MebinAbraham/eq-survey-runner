@@ -72,11 +72,9 @@
                     "type": "Interstitial",
                     "id": "correct-answer",
                     "title": "You entered a number less than or equal to 123",
-                    "content": [
-                        {
-                            "description": "You were asked to enter a number less than or equal to <em>123</em> and you entered <em>{{answers['answer']}}</em>."
-                        }
-                    ]
+                    "content": [{
+                        "description": "You were asked to enter a number less than or equal to <em>123</em> and you entered <em>{{answers['answer']}}</em>."
+                    }]
                 },
                 {
                     "type": "Summary",
