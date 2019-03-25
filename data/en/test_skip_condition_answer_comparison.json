@@ -56,7 +56,9 @@
                 "type": "Interstitial",
                 "id": "equals-answers",
                 "title": "Second equal first",
-                "description": "Your second number was equal to your first number",
+                "content": [{
+                    "description": "Your second number was equal to your first number"
+                }],
                 "skip_conditions": [{
                     "when": [{
                         "id": "comparison-1-answer",
@@ -68,7 +70,9 @@
                 "type": "Interstitial",
                 "id": "less-than-answers",
                 "title": "First less than second",
-                "description": "Your first answer was less than your second number",
+                "content": [{
+                    "description": "Your first answer was less than your second number"
+                }],
                 "skip_conditions": [{
                     "when": [{
                         "id": "comparison-1-answer",
@@ -86,7 +90,9 @@
                 "type": "Interstitial",
                 "id": "greater-than-answers",
                 "title": "First greater than second",
-                "description": "Your first answer was greater than your second number",
+                "content": [{
+                    "description": "Your first answer was greater than your second number"
+                }],
                 "skip_conditions": [{
                     "when": [{
                         "id": "comparison-1-answer",

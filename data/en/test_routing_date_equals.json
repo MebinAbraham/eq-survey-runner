@@ -164,7 +164,9 @@
                 "type": "Interstitial",
                 "id": "incorrect-answer",
                 "title": "Incorrect Date",
-                "description": "You entered an incorrect date",
+                "content": [{
+                    "description": "You entered an incorrect date"
+                }],
                 "routing_rules": [{
                     "goto": {
                         "block": "summary"
@@ -174,7 +176,9 @@
                 "type": "Interstitial",
                 "id": "correct-answer",
                 "title": "Correct Date",
-                "description": "You entered a correct date."
+                "content": [{
+                    "description": "You entered a correct date."
+                }]
             }, {
                 "type": "Summary",
                 "id": "summary"

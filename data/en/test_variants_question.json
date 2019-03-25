@@ -107,7 +107,8 @@
                                     "answers": [{
                                         "id": "age-answer",
                                         "mandatory": false,
-                                        "type": "Number"
+                                        "type": "Number",
+                                        "label": "Age"
                                     }]
                                 },
                                 "when": [{
@@ -139,7 +140,8 @@
                                     "answers": [{
                                         "id": "age-answer",
                                         "mandatory": true,
-                                        "type": "Number"
+                                        "type": "Number",
+                                        "label": "Age"
                                     }]
                                 },
                                 "when": [{
@@ -156,7 +158,7 @@
                         "title": "Confirm your age",
                         "question_variants": [{
                                 "question": {
-                                    "id": "age-over-confirmation-question",
+                                    "id": "age-confirmation-question",
                                     "type": "General",
                                     "title": "You are over 16?",
                                     "answers": [{
@@ -188,7 +190,7 @@
                             },
                             {
                                 "question": {
-                                    "id": "age-under-confirmation-question",
+                                    "id": "age-confirmation-question",
                                     "type": "General",
                                     "title": "You are under 16?",
                                     "answers": [{
@@ -220,7 +222,7 @@
                             },
                             {
                                 "question": {
-                                    "id": "age-under-confirmation-question",
+                                    "id": "age-confirmation-question",
                                     "type": "General",
                                     "title": {
                                         "text": "<em>{person_name}</em> is over 16?",
@@ -267,7 +269,7 @@
                             },
                             {
                                 "question": {
-                                    "id": "age-under-confirmation-question",
+                                    "id": "age-confirmation-question",
                                     "type": "General",
                                     "title": {
                                         "text": "<em>{person_name}</em> is under 16?",
@@ -372,7 +374,7 @@
                         "id": "first-number-block",
                         "question_variants": [{
                                 "question": {
-                                    "id": "first-number-question-gbp",
+                                    "id": "first-number-question",
                                     "title": "First Number Question Title",
                                     "type": "General",
                                     "answers": [{
@@ -392,7 +394,7 @@
                             },
                             {
                                 "question": {
-                                    "id": "first-number-question-usd",
+                                    "id": "first-number-question",
                                     "title": "First Number Question Title",
                                     "type": "General",
                                     "answers": [{
@@ -418,7 +420,7 @@
                         "id": "second-number-block",
                         "question_variants": [{
                                 "question": {
-                                    "id": "second-number-question-gbp",
+                                    "id": "second-number-question",
                                     "title": "Second Number Question Title",
                                     "type": "General",
                                     "answers": [{
@@ -438,7 +440,7 @@
                             },
                             {
                                 "question": {
-                                    "id": "second-number-question-usd",
+                                    "id": "second-number-question",
                                     "title": "Second Number Question Title",
                                     "type": "General",
                                     "answers": [{

@@ -51,7 +51,9 @@
             }, {
                 "id": "breakfast-interstitial",
                 "title": "Breakfast Interstitial Page",
-                "description": "You have successfully completed the breakfast section. Next we want to know about your lunch.",
+                "content": [{
+                    "description": "You have successfully completed the breakfast section. Next we want to know about your lunch."
+                }],
                 "type": "Interstitial"
             }, {
                 "type": "Question",
@@ -75,7 +77,9 @@
             }, {
                 "type": "Confirmation",
                 "id": "confirmation",
-                "title": "Thank you for your answers, do you wish to submit"
+                "content": [{
+                    "title": "Thank you for your answers, do you wish to submit"
+                }]
             }],
             "id": "favourite-foods",
             "title": "Favourite food"

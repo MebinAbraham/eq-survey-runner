@@ -59,7 +59,9 @@
                 "type": "Interstitial",
                 "id": "incorrect-answer",
                 "title": "Incorrect Date",
-                "description": "You entered a return date earlier than {{ metadata['return_by']|format_date }}.",
+                "content": [{
+                    "description": "You entered a return date earlier than {{ metadata['return_by']|format_date }}."
+                }],
                 "routing_rules": [{
                     "goto": {
                         "block": "summary"
@@ -69,7 +71,9 @@
                 "type": "Interstitial",
                 "id": "correct-answer",
                 "title": "Correct Date",
-                "description": "You entered a return date later than {{ metadata['return_by']|format_date }}."
+                "content": [{
+                    "description": "You entered a return date later than {{ metadata['return_by']|format_date }}."
+                }]
             }, {
                 "type": "Summary",
                 "id": "summary"

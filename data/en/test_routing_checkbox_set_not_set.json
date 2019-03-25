@@ -73,7 +73,9 @@
                 {
                     "id": "topping-interstitial-set",
                     "title": "Topping Interstitial Page",
-                    "description": "You selected a topping",
+                    "content": [{
+                        "description": "You selected a topping"
+                    }],
                     "type": "Interstitial",
                     "skip_conditions": [{
                         "when": [{
@@ -85,7 +87,9 @@
                 {
                     "id": "topping-interstitial-not-set",
                     "title": "Topping Interstitial Page",
-                    "description": "You did not select a topping",
+                    "content": [{
+                        "description": "You did not select a topping"
+                    }],
                     "type": "Interstitial",
                     "skip_conditions": [{
                         "when": [{
@@ -125,8 +129,10 @@
                 {
                     "id": "cheese-interstitial-set",
                     "title": "Cheese Interstitial Page",
-                    "description": "You selected an option for the cheese question",
                     "type": "Interstitial",
+                    "content": [{
+                        "description": "You selected an option for the cheese question"
+                    }],
                     "skip_conditions": [{
                         "when": [{
                             "id": "optional-mutually-exclusive-answer",
@@ -136,8 +142,10 @@
                 }, {
                     "id": "cheese-interstitial-not-set",
                     "title": "Cheese Interstitial Page",
-                    "description": "You did not select an option for the cheese question",
                     "type": "Interstitial",
+                    "content": [{
+                        "description": "You did not select an option for the cheese question"
+                    }],
                     "skip_conditions": [{
                         "when": [{
                             "id": "optional-mutually-exclusive-answer",

@@ -75,7 +75,9 @@
                 "type": "Interstitial",
                 "id": "invalid-path-interstitial",
                 "title": "You now have an answer that could be invalid in the store.",
-                "description": "Go back to the first question and choose the second path.",
+                "content": [{
+                    "description": "Go back to the first question and choose the second path."
+                }],
                 "routing_rules": [{
                     "goto": {
                         "block": "summary"
@@ -114,7 +116,9 @@
                 "type": "Interstitial",
                 "id": "valid-skipped-interstitial",
                 "title": "This page should have been skipped!",
-                "description": "",
+                "content": [{
+                    "description": ""
+                }],
                 "skip_conditions": [{
                     "when": [{
                         "id": "invalid-path-answer",
@@ -125,7 +129,9 @@
                 "type": "Interstitial",
                 "id": "valid-final-interstitial",
                 "title": "You were routed correctly!",
-                "description": "",
+                "content": [{
+                    "description": ""
+                }],
                 "routing_rules": [{
                     "goto": {
                         "block": "summary"
@@ -135,7 +141,9 @@
                 "type": "Interstitial",
                 "id": "invalid-final-interstitial",
                 "title": "You were routed incorrectly.",
-                "description": "",
+                "content": [{
+                    "description": ""
+                }],
                 "routing_rules": [{
                     "goto": {
                         "block": "summary"

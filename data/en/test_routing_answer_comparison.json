@@ -72,12 +72,16 @@
                 "type": "Interstitial",
                 "id": "route-comparison-3",
                 "title": "Your second number was lower or equal",
-                "description": "This page should be skipped if your second answer was higher than your first"
+                "content": [{
+                    "description": "This page should be skipped if your second answer was higher than your first"
+                }]
             }, {
                 "type": "Interstitial",
                 "id": "route-comparison-4",
                 "title": "Your second number was higher",
-                "description": "This page should never be skipped"
+                "content": [{
+                    "description": "This page should never be skipped"
+                }]
             }]
         }, {
             "id": "summary-group",
