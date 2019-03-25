@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [[ -z "$EQ_KEYS_FILE" ]]; then
   echo "EQ_KEYS_FILE not provided"
   exit 1
