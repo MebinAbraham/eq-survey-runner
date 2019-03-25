@@ -1,7 +1,6 @@
 const helpers = require('../helpers');
 const ageBlock = require('../generated_pages/variants_question/age-block.page.js');
 const ageConfirmationBlock = require('../generated_pages/variants_question/age-confirmation-block.page.js');
-const allSummary = require('../generated_pages/variants_question/all-summary.page.js');
 const basicVariantsSummary = require('../generated_pages/variants_question/basic-variants-summary.page.js');
 const currencyBlock = require('../generated_pages/variants_question/currency-block.page.js');
 const currencySectionSummary = require('../generated_pages/variants_question/currency-section-summary.page.js');
@@ -60,9 +59,9 @@ describe('QuestionVariants', function() {
       .click(currencyBlock.usd())
       .click(currencyBlock.submit())
 
-      .getText(currencySectionSummary.firstNumberAnswer()).should.eventually.contain('$')
+      .getText(currencySectionSummary.firstNumberAnswer()).should.eventually.contain('$');
 
-    })
+    });
 });
 
 

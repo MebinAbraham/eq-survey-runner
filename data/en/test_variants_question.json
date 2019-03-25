@@ -106,7 +106,6 @@
                                     "title": "What is your age?",
                                     "answers": [{
                                         "id": "age-answer",
-                                        "label": "Your age?",
                                         "mandatory": false,
                                         "type": "Number"
                                     }]
@@ -139,7 +138,6 @@
                                     },
                                     "answers": [{
                                         "id": "age-answer",
-                                        "label": "Your age?",
                                         "mandatory": true,
                                         "type": "Number"
                                     }]

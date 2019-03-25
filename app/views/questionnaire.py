@@ -140,11 +140,11 @@ def post_block(routing_path, schema, metadata, collection_metadata, answer_store
     placeholder_renderer = PlaceholderRenderer(block, answer_store=answer_store, metadata=metadata)
     replaced_block = placeholder_renderer.render()
 
-    new_block = transform_variants(replaced_block, schema, metadata, answer_store)
+    transformed_block = transform_variants(replaced_block, schema, metadata, answer_store)
 
     schema_context = _get_schema_context(routing_path, metadata, collection_metadata, answer_store, schema)
 
-    rendered_block = renderer.render(new_block, **schema_context)
+    rendered_block = renderer.render(transformed_block, **schema_context)
 
     form = _generate_wtf_form(request.form, rendered_block, schema)
 
