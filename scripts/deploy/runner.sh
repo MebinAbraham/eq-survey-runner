@@ -11,13 +11,6 @@ PROJECT_ID=$1
 SUBMISSION_BUCKET_NAME=$2
 IMAGE_TAG="${3:-latest}"
 
-kubectl create secret generic keys \
-    --from-file=keys.yml=docker-keys.yml \
-    --dry-run -o yaml | kubectl apply -f -
-kubectl create secret generic secrets \
-    --from-file=secrets.yml=docker-secrets.yml \
-    --dry-run -o yaml | kubectl apply -f -
-
 helm tiller run \
     helm upgrade --install \
     survey-runner \
